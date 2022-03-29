@@ -15,6 +15,21 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_task1_solve_pushButton_pressed();
+
+    void on_task1_clear_pushButton_pressed();
+
+    void on_task2_solve_pushButton_pressed();
+
+    void on_task2_clear_pushButton_pressed();
+
+    void on_task3_add_pushButton_pressed();
+
+    void on_task3_replace_pushButton_pressed();
+
+    void on_task3_insert_pushButton_pressed();
+
 private:
     Ui::MainWindow *ui;
 };
