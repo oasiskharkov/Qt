@@ -231,6 +231,7 @@ DIST          = ../../../../qt/5.12.12/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../../qt/5.12.12/gcc_64/mkspecs/features/qt_config.prf \
 		../../../../qt/5.12.12/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../../qt/5.12.12/gcc_64/mkspecs/features/spec_post.prf \
+		../.qmake.stash \
 		../../../../qt/5.12.12/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../../qt/5.12.12/gcc_64/mkspecs/features/toolchain.prf \
 		../../../../qt/5.12.12/gcc_64/mkspecs/features/default_pre.prf \
@@ -437,6 +438,7 @@ Makefile: ../les1.pro ../../../qt/5.12.12/gcc_64/mkspecs/features/spec_pre.prf \
 		../../../qt/5.12.12/gcc_64/mkspecs/features/qt_config.prf \
 		../../../qt/5.12.12/gcc_64/mkspecs/linux-g++/qmake.conf \
 		../../../qt/5.12.12/gcc_64/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		../../../qt/5.12.12/gcc_64/mkspecs/features/exclusive_builds.prf \
 		../../../qt/5.12.12/gcc_64/mkspecs/features/toolchain.prf \
 		../../../qt/5.12.12/gcc_64/mkspecs/features/default_pre.prf \
@@ -632,6 +634,7 @@ Makefile: ../les1.pro ../../../qt/5.12.12/gcc_64/mkspecs/features/spec_pre.prf \
 ../../../qt/5.12.12/gcc_64/mkspecs/features/qt_config.prf:
 ../../../qt/5.12.12/gcc_64/mkspecs/linux-g++/qmake.conf:
 ../../../qt/5.12.12/gcc_64/mkspecs/features/spec_post.prf:
+.qmake.stash:
 ../../../qt/5.12.12/gcc_64/mkspecs/features/exclusive_builds.prf:
 ../../../qt/5.12.12/gcc_64/mkspecs/features/toolchain.prf:
 ../../../qt/5.12.12/gcc_64/mkspecs/features/default_pre.prf:
@@ -1059,7 +1062,26 @@ mainwindow.o: ../mainwindow.cpp ../mainwindow.h \
 		../../../qt/5.12.12/gcc_64/include/QtGui/qtouchdevice.h \
 		../../../qt/5.12.12/gcc_64/include/QtWidgets/qtabwidget.h \
 		../../../qt/5.12.12/gcc_64/include/QtGui/qicon.h \
-		ui_mainwindow.h
+		ui_mainwindow.h \
+		../../../qt/5.12.12/gcc_64/include/QtCore/QVariant \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/QApplication \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/qapplication.h \
+		../../../qt/5.12.12/gcc_64/include/QtCore/qcoreapplication.h \
+		../../../qt/5.12.12/gcc_64/include/QtCore/qeventloop.h \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/qdesktopwidget.h \
+		../../../qt/5.12.12/gcc_64/include/QtGui/qguiapplication.h \
+		../../../qt/5.12.12/gcc_64/include/QtGui/qinputmethod.h \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/QGroupBox \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/qgroupbox.h \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/qframe.h \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/QMenuBar \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/qmenubar.h \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/qmenu.h \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/qaction.h \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/qactiongroup.h \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/QStatusBar \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/qstatusbar.h \
+		../../../qt/5.12.12/gcc_64/include/QtWidgets/QWidget
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../mainwindow.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
