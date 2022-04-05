@@ -122,7 +122,6 @@ void MainWindow::addLanguage()
         }
     }
 
-    bool found = (langs.indexOf(lang) != -1);
-
+    bool found = (langs.indexOf(lang.toLower()) != -1);
     model.insertRow(0, new QStandardItem(QIcon(":/" + (found ? lang : defaultLanguage)), lang));
 }
