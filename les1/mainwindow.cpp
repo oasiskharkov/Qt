@@ -15,7 +15,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
 void MainWindow::on_task1_solve_pushButton_pressed()
 {
     bool nonError = true;
@@ -58,9 +57,9 @@ void MainWindow::on_task1_solve_pushButton_pressed()
     {
         answer = "No solution";
     }
-    else if(disc < std::numeric_limits<double>::epsilon())
+    else if(qFuzzyIsNull(disc))
     {
-        if(a != 0.0)
+        if(!qFuzzyIsNull(a))
         {
             qreal x = -b / (2 * a);
             answer = "x=" + QString::number(x);
@@ -73,7 +72,7 @@ void MainWindow::on_task1_solve_pushButton_pressed()
     }
     else
     {
-        if(a != 0.0)
+        if(!qFuzzyIsNull(a))
         {
             qreal x1 = (-b + sqrt(disc)) / (2 * a);
             qreal x2 = (-b - sqrt(disc)) / (2 * a);
@@ -111,7 +110,7 @@ void MainWindow::on_task2_solve_pushButton_pressed()
     palette.setColor(QPalette::Text, Qt::red);
 
     qreal a = ui->task2_a_lineEdit->text().toDouble(&nonError);
-    if(!nonError || a <= 0.0)
+    if(!nonError || qFuzzyIsNull(a) || a < 0.0)
     {
         ui->task2_a_lineEdit->setText(error);
         ui->task2_a_lineEdit->setPalette(palette);
@@ -120,7 +119,7 @@ void MainWindow::on_task2_solve_pushButton_pressed()
     }
 
     qreal b = ui->task2_b_lineEdit->text().toDouble(&nonError);
-    if(!nonError || b <= 0.0)
+    if(!nonError || qFuzzyIsNull(b) || b < 0.0)
     {
         ui->task2_b_lineEdit->setText(error);
         ui->task2_b_lineEdit->setPalette(palette);
@@ -134,7 +133,7 @@ void MainWindow::on_task2_solve_pushButton_pressed()
         gamma = qDegreesToRadians(gamma);
     }
 
-    if(!nonError || gamma > M_PI)
+    if(!nonError || gamma > M_PI || qFuzzyCompare(gamma, M_PI))
     {
         ui->task2_gamma_lineEdit->setText(error);
         ui->task2_gamma_lineEdit->setPalette(palette);
@@ -143,7 +142,7 @@ void MainWindow::on_task2_solve_pushButton_pressed()
     }
 
     QString answer;
-    double c = a * a + b * b - 2 * a * b * qCos(gamma);
+    qreal c = a * a + b * b - 2 * a * b * qCos(gamma);
 
     if(c < 0.0)
     {
