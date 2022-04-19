@@ -1,0 +1,4 @@
+TextEditor 2.0
+Developed by Aleksei Klopkov
+Kasystems, 2022
+E-mail: kasystems@mail.ru
