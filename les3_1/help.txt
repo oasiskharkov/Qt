@@ -1,0 +1,7 @@
+New - press 'New' to create new file
+Open - press 'Open' to open existing file
+Save - press 'Save' to save opened file
+Save As - press 'Save As' to save to other file
+Close - press 'Close' to close current file
+Help - press 'Help' to get help
+

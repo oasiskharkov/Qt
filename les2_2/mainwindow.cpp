@@ -124,4 +124,5 @@ void MainWindow::addLanguage()
 
     bool found = (langs.indexOf(lang.toLower()) != -1);
     model.insertRow(0, new QStandardItem(QIcon(":/" + (found ? lang : defaultLanguage)), lang));
+    ui->lang_lineEdit->clear();
 }
