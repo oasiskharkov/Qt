@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QTranslator& translator, QWidget *parent = nullptr);
+    MainWindow(QApplication& app, QWidget* parent = nullptr);
     ~MainWindow();
 
 private slots:
@@ -39,15 +39,40 @@ private slots:
 private:
     void Init();
     void OpenFileFunc();
+    void RetranslateUi(Langs lang);
 
 private:
     Ui::MainWindow *ui;
+    QApplication& application;
+    QTranslator translator;
+
+    QMenu* fileMenu;
+    QMenu* editMenu;
+    QMenu* viewMenu;
+    QMenu* refMenu;
+    QAction* newAction;
+    QAction* openAction;
+    QAction* readOnlyAction;
+    QAction* saveAction;
+    QAction* saveAsAction;
+    QAction* closeAction;
+    QAction* exitAction;
+    QAction* cutAction;
+    QAction* copyAction;
+    QAction* pasteAction;
+    QAction* deleteAction;
+    QAction* clearAction;
     QAction* engCheckable;
     QAction* rusCheckable;
+    QMenu* langSubMenu;
+    QAction* aboutAction;
+    QAction* helpAction;
+
     AboutForm* aboutForm;
     HelpForm* helpForm;
+
     QString filePath;
     QString filter;
-    QTranslator& translator;
+
 };
 #endif // MAINWINDOW_H

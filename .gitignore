@@ -38,3 +38,14 @@ les2_3/build
 les3_1/build
 les4_1/build
 *.user
+
+
+les4_1/QtLanguage_en.qm
+les4_1/QtLanguage_en.ts
+les4_1/QtLanguage_ru.qm
+les4_1/QtLanguage_ru.ts
+les4_1/about.txt
+les4_1/about_rus.txt
+les4_1/help.txt
+les4_1/help_rus.txt
+les4_1/service.h

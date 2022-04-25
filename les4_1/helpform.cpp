@@ -16,15 +16,41 @@ HelpForm::~HelpForm()
     delete ui;
 }
 
+void HelpForm::RetranslateUi(Langs lang)
+{
+    setWindowTitle(tr("Help"));
+
+    switch(lang)
+    {
+    case Langs::ENG:
+        ui->help_label->setText(text_eng);
+        break;
+    case Langs::RUS:
+        ui->help_label->setText(text_rus);
+        break;
+    }
+}
+
 void HelpForm::Init()
 {
     this->setWindowFlags(Qt::Dialog);
-    this->setWindowTitle(tr("Help"));
 
-    QFile file(":/help");
-    if (file.open(QFile::ReadOnly | QFile::ExistingOnly))
+    QString path = ":/help_";
+    QFile file_eng(path + "eng");
+    if (file_eng.open(QFile::ReadOnly | QFile::ExistingOnly))
     {
-        QTextStream stream(&file);
-        ui->help_label->setText(stream.readAll());
+        QTextStream stream(&file_eng);
+        text_eng = stream.readAll();
+        file_eng.close();
     }
+
+    QFile file_rus(path + "rus");
+    if (file_rus.open(QFile::ReadOnly | QFile::ExistingOnly))
+    {
+        QTextStream stream(&file_rus);
+        text_rus = stream.readAll();
+        file_rus.close();
+    }
+
+    RetranslateUi(Langs::ENG);
 }

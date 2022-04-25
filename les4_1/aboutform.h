@@ -2,6 +2,8 @@
 #define ABOUTFORM_H
 
 #include <QWidget>
+#include "service.h"
+
 
 namespace Ui {
 class AboutForm;
@@ -14,12 +16,15 @@ class AboutForm : public QWidget
 public:
     explicit AboutForm(QWidget *parent = nullptr);
     ~AboutForm();
+    void RetranslateUi(Langs lang);
 
 private:
     void Init();
 
 private:
     Ui::AboutForm *ui;
+    QString text_eng;
+    QString text_rus;
 };
 
 #endif // ABOUTFORM_H

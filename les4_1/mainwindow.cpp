@@ -3,17 +3,12 @@
 
 #include <QMenu>
 
-namespace
-{
-    QString langs [2] = {"./QtLanguage_en", "./QtLanguage_ru"};
-}
-
-MainWindow::MainWindow(QTranslator &translator, QWidget *parent)
+MainWindow::MainWindow(QApplication& app, QWidget *parent)
     :
       QMainWindow(parent)
     , ui(new Ui::MainWindow)
+    , application(app)
     , filePath("")
-    , translator(translator)
 {
     ui->setupUi(this);
     Init();
@@ -26,54 +21,54 @@ MainWindow::~MainWindow()
 
 void MainWindow::Init()
 {
-    translator.load(langs[0]);
+    translator.load(langsPath[Langs::ENG]);
+    application.installTranslator(&translator);
 
-    this->setWindowTitle("Text Editor 2.0");
-    filter = trUtf8("Text File(*.txt);;All Files(*.*)");
-
-    QMenu* fileMenu = new QMenu(tr("&File"));
-    QMenu* editMenu = new QMenu(tr("&Edit"));
-    QMenu* viewMenu = new QMenu(tr("&View"));
-    QMenu* refMenu = new QMenu(tr("&Reference"));
+    fileMenu = new QMenu(this);
+    editMenu = new QMenu(this);
+    viewMenu = new QMenu(this);
+    refMenu = new QMenu(this);
 
     this->menuBar()->addMenu(fileMenu);
     this->menuBar()->addMenu(editMenu);
     this->menuBar()->addMenu(viewMenu);
     this->menuBar()->addMenu(refMenu);
 
-    fileMenu->addAction(tr("&New"), this, SLOT(NewFile()), Qt::CTRL + Qt::Key_N);
-    fileMenu->addAction(tr("&Open"), this, SLOT(OpenFile()), Qt::CTRL + Qt::Key_O);
-    fileMenu->addAction(tr("&Read Only"), this, SLOT(ReadOnlyFile()), Qt::CTRL + Qt::SHIFT + Qt::Key_O);
-    fileMenu->addAction(tr("&Save"), this, SLOT(SaveFile()), Qt::CTRL + Qt::Key_S);
-    fileMenu->addAction(tr("&Save As"), this, SLOT(SaveFileAs()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
-    fileMenu->addAction(tr("&Close"), this, SLOT(CloseFile()), Qt::CTRL + Qt::SHIFT + Qt::Key_C);
+    newAction = fileMenu->addAction("", this, SLOT(NewFile()), Qt::CTRL + Qt::Key_N);
+    openAction = fileMenu->addAction("", this, SLOT(OpenFile()), Qt::CTRL + Qt::Key_O);
+    readOnlyAction = fileMenu->addAction("", this, SLOT(ReadOnlyFile()), Qt::CTRL + Qt::SHIFT + Qt::Key_O);
+    saveAction = fileMenu->addAction("", this, SLOT(SaveFile()), Qt::CTRL + Qt::Key_S);
+    saveAsAction = fileMenu->addAction("", this, SLOT(SaveFileAs()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
+    closeAction = fileMenu->addAction("", this, SLOT(CloseFile()), Qt::CTRL + Qt::SHIFT + Qt::Key_C);
     fileMenu->addSeparator();
-    fileMenu->addAction(tr("&Exit"), this, SLOT(Exit()), Qt::ALT + Qt::Key_F4);
+    exitAction = fileMenu->addAction("", this, SLOT(Exit()), Qt::ALT + Qt::Key_F4);
 
-    editMenu->addAction(tr("&Cut"), this, SLOT(Cut()), Qt::CTRL + Qt::Key_X);
-    editMenu->addAction(tr("&Copy"), this, SLOT(Copy()), Qt::CTRL + Qt::Key_C);
-    editMenu->addAction(tr("&Paste"), this, SLOT(Paste()), Qt::CTRL + Qt::Key_V);
-    editMenu->addAction(tr("&Delete"), this, SLOT(Delete()), Qt::CTRL + Qt::Key_D);
+    cutAction = editMenu->addAction("", this, SLOT(Cut()), Qt::CTRL + Qt::Key_X);
+    copyAction = editMenu->addAction("", this, SLOT(Copy()), Qt::CTRL + Qt::Key_C);
+    pasteAction = editMenu->addAction("", this, SLOT(Paste()), Qt::CTRL + Qt::Key_V);
+    deleteAction = editMenu->addAction("", this, SLOT(Delete()), Qt::CTRL + Qt::Key_D);
     editMenu->addSeparator();
-    editMenu->addAction(tr("&Clear"), this, SLOT(Clear()), Qt::CTRL + Qt::Key_K);
+    clearAction = editMenu->addAction("", this, SLOT(Clear()), Qt::CTRL + Qt::Key_K);
 
-    QMenu* langSubMenu = new QMenu(tr("Language"), viewMenu);
+    langSubMenu = new QMenu(viewMenu);
     viewMenu->addMenu(langSubMenu);
 
-    engCheckable = langSubMenu->addAction(tr("&English"), this, SLOT(CheckEnglish()));
+    engCheckable = langSubMenu->addAction("", this, SLOT(CheckEnglish()));
     engCheckable->setCheckable(true);
     engCheckable->setChecked(true);
 
-    rusCheckable = langSubMenu->addAction(tr("&Russian"), this, SLOT(CheckRussian()));
+    rusCheckable = langSubMenu->addAction("", this, SLOT(CheckRussian()));
     rusCheckable->setCheckable(true);
     rusCheckable->setChecked(false);
 
-    refMenu->addAction(tr("&About"), this, SLOT(About()));
+    aboutAction = refMenu->addAction("", this, SLOT(About()));
     refMenu->addSeparator();
-    refMenu->addAction(tr("&Help"), this, SLOT(Help()), Qt::Key_F1);
+    helpAction = refMenu->addAction("", this, SLOT(Help()), Qt::Key_F1);
 
     aboutForm = new AboutForm(this);
     helpForm = new HelpForm(this);
+
+    RetranslateUi(Langs::ENG);
 }
 
 void MainWindow::NewFile()
@@ -101,6 +96,42 @@ void MainWindow::OpenFileFunc()
             }
         }
     }
+}
+
+void MainWindow::RetranslateUi(Langs lang)
+{
+    setWindowTitle(tr("Text Editor 2.0"));
+    filter = trUtf8("Text File(*.txt);;All Files(*.*)");
+
+    fileMenu->setTitle(tr("&File"));
+    editMenu->setTitle(tr("&Edit"));
+    viewMenu->setTitle(tr("&View"));
+    refMenu->setTitle(tr("&Reference"));
+
+    newAction->setText(tr("&New"));
+    openAction->setText(tr("&Open"));
+    readOnlyAction->setText(tr("&Read Only"));
+    saveAction->setText(tr("&Save"));
+    saveAsAction->setText(tr("&Save As"));
+    closeAction->setText(tr("&Close"));
+    exitAction->setText(tr("&Exit"));
+
+    cutAction->setText(tr("&Cut"));
+    copyAction->setText(tr("&Copy"));
+    pasteAction->setText(tr("&Paste"));
+    deleteAction->setText(tr("&Delete"));
+    clearAction->setText(tr("&Clear"));
+
+    langSubMenu->setTitle(tr("&Language"));
+
+    engCheckable->setText(tr("&English"));
+    rusCheckable->setText(tr("&Russian"));
+
+    aboutAction->setText(tr("&About"));
+    helpAction->setText(tr("&Help"));
+
+    aboutForm->RetranslateUi(lang);
+    helpForm->RetranslateUi(lang);
 }
 
 void MainWindow::OpenFile()
@@ -167,8 +198,8 @@ void MainWindow::CheckEnglish()
     if(engCheckable->isChecked())
     {
         rusCheckable->setChecked(false);
-        translator.load(langs[0]);
-        this->update();
+        translator.load(langsPath[Langs::ENG]);
+        RetranslateUi(Langs::ENG);
     }
     else
     {
@@ -181,8 +212,8 @@ void MainWindow::CheckRussian()
     if(rusCheckable->isChecked())
     {
         engCheckable->setChecked(false);
-        translator.load(langs[1]);
-        this->update();
+        translator.load(langsPath[Langs::RUS]);
+        RetranslateUi(Langs::RUS);
     }
     else
     {
