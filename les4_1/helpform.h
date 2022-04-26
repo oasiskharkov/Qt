@@ -16,6 +16,7 @@ public:
     explicit HelpForm(QWidget *parent = nullptr);
     ~HelpForm();
     void RetranslateUi(Langs lang);
+    void SetTheme(Theme theme);
 
 private:
     void Init();

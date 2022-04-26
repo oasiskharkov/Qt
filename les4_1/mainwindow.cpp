@@ -26,12 +26,12 @@ void MainWindow::Init()
 
     fileMenu = new QMenu(this);
     editMenu = new QMenu(this);
-    viewMenu = new QMenu(this);
+    settingsMenu = new QMenu(this);
     refMenu = new QMenu(this);
 
     this->menuBar()->addMenu(fileMenu);
     this->menuBar()->addMenu(editMenu);
-    this->menuBar()->addMenu(viewMenu);
+    this->menuBar()->addMenu(settingsMenu);
     this->menuBar()->addMenu(refMenu);
 
     newAction = fileMenu->addAction("", this, SLOT(NewFile()), Qt::CTRL + Qt::Key_N);
@@ -50,8 +50,8 @@ void MainWindow::Init()
     editMenu->addSeparator();
     clearAction = editMenu->addAction("", this, SLOT(Clear()), Qt::CTRL + Qt::Key_K);
 
-    langSubMenu = new QMenu(viewMenu);
-    viewMenu->addMenu(langSubMenu);
+    langSubMenu = new QMenu(settingsMenu);
+    settingsMenu->addMenu(langSubMenu);
 
     engCheckable = langSubMenu->addAction("", this, SLOT(CheckEnglish()));
     engCheckable->setCheckable(true);
@@ -61,7 +61,45 @@ void MainWindow::Init()
     rusCheckable->setCheckable(true);
     rusCheckable->setChecked(false);
 
-    aboutAction = refMenu->addAction("", this, SLOT(About()));
+    shortcutSubMenu = new QMenu(settingsMenu);
+    settingsMenu->addMenu(shortcutSubMenu);
+
+    f2Checkable = shortcutSubMenu->addAction("", this, SLOT(F2()));
+    f2Checkable->setCheckable(true);
+    f2Checkable->setChecked(false);
+
+    f3Checkable = shortcutSubMenu->addAction("", this, SLOT(F3()));
+    f3Checkable->setCheckable(true);
+    f3Checkable->setChecked(false);
+
+    f4Checkable = shortcutSubMenu->addAction("", this, SLOT(F4()));
+    f4Checkable->setCheckable(true);
+    f4Checkable->setChecked(false);
+
+    f5Checkable = shortcutSubMenu->addAction("", this, SLOT(F5()));
+    f5Checkable->setCheckable(true);
+    f5Checkable->setChecked(false);
+
+    f6Checkable = shortcutSubMenu->addAction("", this, SLOT(F6()));
+    f6Checkable->setCheckable(true);
+    f6Checkable->setChecked(false);
+
+    f7Checkable = shortcutSubMenu->addAction("", this, SLOT(F7()));
+    f7Checkable->setCheckable(true);
+    f7Checkable->setChecked(false);
+
+    themeSubMenu = new QMenu(settingsMenu);
+    settingsMenu->addMenu(themeSubMenu);
+
+    lightCheckable = themeSubMenu->addAction("", this, SLOT(SetLightTheme()));
+    lightCheckable->setCheckable(true);
+    lightCheckable->setChecked(true);
+
+    darkCheckable = themeSubMenu->addAction("", this, SLOT(SetDarkTheme()));
+    darkCheckable->setCheckable(true);
+    darkCheckable->setChecked(false);
+
+    aboutAction = refMenu->addAction("", this, SLOT(About()), Qt::Key_F12);
     refMenu->addSeparator();
     helpAction = refMenu->addAction("", this, SLOT(Help()), Qt::Key_F1);
 
@@ -105,7 +143,7 @@ void MainWindow::RetranslateUi(Langs lang)
 
     fileMenu->setTitle(tr("&File"));
     editMenu->setTitle(tr("&Edit"));
-    viewMenu->setTitle(tr("&View"));
+    settingsMenu->setTitle(tr("&Settings"));
     refMenu->setTitle(tr("&Reference"));
 
     newAction->setText(tr("&New"));
@@ -127,11 +165,38 @@ void MainWindow::RetranslateUi(Langs lang)
     engCheckable->setText(tr("&English"));
     rusCheckable->setText(tr("&Russian"));
 
+    shortcutSubMenu->setTitle(tr("&Shortcuts"));
+    f2Checkable->setText(tr("&New -> F2"));
+    f3Checkable->setText(tr("&Open -> F3"));;
+    f4Checkable->setText(tr("&Read Only -> F4"));
+    f5Checkable->setText(tr("&Save -> F5"));
+    f6Checkable->setText(tr("&Save As -> F6"));
+    f7Checkable->setText(tr("&Close -> F7"));
+
+    themeSubMenu->setTitle(tr("&Theme"));
+    lightCheckable->setText(tr("&Light"));
+    darkCheckable->setText(tr("&Dark"));
+
     aboutAction->setText(tr("&About"));
     helpAction->setText(tr("&Help"));
 
     aboutForm->RetranslateUi(lang);
     helpForm->RetranslateUi(lang);
+}
+
+void MainWindow::SetTheme(Theme theme)
+{
+    switch (theme)
+    {
+    case Theme::LIGHT:
+        /// TODO: set light theme here
+        break;
+    case Theme::DARK:
+        /// TODO: set dark theme here
+        break;
+    }
+    aboutForm->SetTheme(theme);
+    helpForm->SetTheme(theme);
 }
 
 void MainWindow::OpenFile()
@@ -229,4 +294,102 @@ void MainWindow::About()
 void MainWindow::Help()
 {
     helpForm->show();
+}
+
+void MainWindow::F2()
+{
+    if(f2Checkable->isChecked())
+    {
+        newAction->setShortcut(Qt::Key_F2);
+    }
+    else
+    {
+        newAction->setShortcut(Qt::CTRL + Qt::Key_N);
+    }
+}
+
+void MainWindow::F3()
+{
+    if(f3Checkable->isChecked())
+    {
+        openAction->setShortcut(Qt::Key_F3);
+    }
+    else
+    {
+        openAction->setShortcut(Qt::CTRL + Qt::Key_O);
+    }
+}
+
+void MainWindow::F4()
+{
+    if(f4Checkable->isChecked())
+    {
+        readOnlyAction->setShortcut(Qt::Key_F4);
+    }
+    else
+    {
+        readOnlyAction->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_O);
+    }
+}
+
+void MainWindow::F5()
+{
+    if(f5Checkable->isChecked())
+    {
+        saveAction->setShortcut(Qt::Key_F5);
+    }
+    else
+    {
+        saveAction->setShortcut(Qt::CTRL + Qt::Key_S);
+    }
+}
+
+void MainWindow::F6()
+{
+    if(f6Checkable->isChecked())
+    {
+        saveAsAction->setShortcut(Qt::Key_F6);
+    }
+    else
+    {
+        saveAsAction->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_S);
+    }
+}
+
+void MainWindow::F7()
+{
+    if(f7Checkable->isChecked())
+    {
+        closeAction->setShortcut(Qt::Key_F7);
+    }
+    else
+    {
+        closeAction->setShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_C);
+    }
+}
+
+void MainWindow::SetLightTheme()
+{
+    if(lightCheckable->isChecked())
+    {
+        darkCheckable->setChecked(false);
+        SetTheme(Theme::LIGHT);
+    }
+    else
+    {
+        darkCheckable->setChecked(true);
+    }
+}
+
+void MainWindow::SetDarkTheme()
+{
+    if(darkCheckable->isChecked())
+    {
+        lightCheckable->setChecked(false);
+        SetTheme(Theme::DARK);
+    }
+    else
+    {
+        lightCheckable->setChecked(true);
+    }
 }

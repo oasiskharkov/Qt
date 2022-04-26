@@ -31,6 +31,19 @@ void AboutForm::RetranslateUi(Langs lang)
     }
 }
 
+void AboutForm::SetTheme(Theme theme)
+{
+    switch (theme)
+    {
+    case Theme::LIGHT:
+        /// TODO: set light theme here
+        break;
+    case Theme::DARK:
+        /// TODO: set dark theme here
+        break;
+    }
+}
+
 void AboutForm::Init()
 {
     this->setWindowFlags(Qt::Dialog);

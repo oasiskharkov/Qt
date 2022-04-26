@@ -31,6 +31,19 @@ void HelpForm::RetranslateUi(Langs lang)
     }
 }
 
+void HelpForm::SetTheme(Theme theme)
+{
+    switch (theme)
+    {
+    case Theme::LIGHT:
+        /// TODO: set light theme here
+        break;
+    case Theme::DARK:
+        /// TODO: set dark theme here
+        break;
+    }
+}
+
 void HelpForm::Init()
 {
     this->setWindowFlags(Qt::Dialog);

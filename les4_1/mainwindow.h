@@ -33,6 +33,14 @@ private slots:
     void Clear();
     void CheckEnglish();
     void CheckRussian();
+    void F2();
+    void F3();
+    void F4();
+    void F5();
+    void F6();
+    void F7();
+    void SetLightTheme();
+    void SetDarkTheme();
     void About();
     void Help();
 
@@ -40,6 +48,7 @@ private:
     void Init();
     void OpenFileFunc();
     void RetranslateUi(Langs lang);
+    void SetTheme(Theme theme);
 
 private:
     Ui::MainWindow *ui;
@@ -48,7 +57,7 @@ private:
 
     QMenu* fileMenu;
     QMenu* editMenu;
-    QMenu* viewMenu;
+    QMenu* settingsMenu;
     QMenu* refMenu;
     QAction* newAction;
     QAction* openAction;
@@ -62,9 +71,19 @@ private:
     QAction* pasteAction;
     QAction* deleteAction;
     QAction* clearAction;
+    QMenu* langSubMenu;
     QAction* engCheckable;
     QAction* rusCheckable;
-    QMenu* langSubMenu;
+    QMenu* shortcutSubMenu;
+    QAction* f2Checkable;
+    QAction* f3Checkable;
+    QAction* f4Checkable;
+    QAction* f5Checkable;
+    QAction* f6Checkable;
+    QAction* f7Checkable;
+    QMenu* themeSubMenu;
+    QAction* darkCheckable;
+    QAction* lightCheckable;
     QAction* aboutAction;
     QAction* helpAction;
 
