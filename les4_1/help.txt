@@ -1,0 +1,26 @@
+Commands and keyboard shortcuts
+
+Menu 'File':
+New - press 'Ctrl+N' to create new file
+Open - press 'Ctrl+O' to open existing file
+Read Only - press 'Ctrl+Shift+O' to only read existing file
+Save - press 'Ctrl+S' to save opened file
+Save As - press 'Ctrl+Shift+S' to save opened file as
+Close - press 'Ctrl+Shift+C' to close opened file
+Exit - press 'Alt+F4' to exit program
+
+Menu 'Edit':
+Cut - press 'Ctrl+X' to cut selected text
+Copy - press 'Ctrl+C' to copy selected text to clipboard
+Paste - press 'Ctrl+V' to paste text from clipboard
+Delete - press 'Ctrl+D' to delete selected text
+Clear - press 'Ctrl+K' to clear all text
+
+Menu 'Settings':
+Language - check option to change interface language
+Shortcuts - check option to change keyboard shortcut
+Theme - check option to change editor's external view
+
+Menu 'Reference':
+About - press 'F12' to show program information
+Help - press 'F1' to show help dialog window

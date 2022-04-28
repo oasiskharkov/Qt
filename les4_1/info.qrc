@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file alias="about_eng">about.txt</file>
+        <file alias="help_eng">help.txt</file>
+        <file alias="about_rus">about_rus.txt</file>
+        <file alias="help_rus">help_rus.txt</file>
+        <file alias="lang_eng">QtLanguage_en.qm</file>
+        <file alias="lang_rus">QtLanguage_ru.qm</file>
+    </qresource>
+</RCC>

@@ -23,7 +23,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::Init()
 {
-    filter = trUtf8("Text File (*.txt)");
+    filter = trUtf8("Text File(*.txt)");
 
     ui->textEdit->setReadOnly(true);
     ui->textEdit->setDisabled(true);
@@ -64,6 +64,7 @@ void MainWindow::FileSave()
                 QTextStream stream(&file);
                 stream << ui->textEdit->toPlainText();
                 file.close();
+                openedFileName = s;
             }
         }
     }
