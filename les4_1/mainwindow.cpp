@@ -106,6 +106,14 @@ void MainWindow::Init()
     aboutForm = new AboutForm(this);
     helpForm = new HelpForm(this);
 
+    QFile file(":/dark_style");
+    if (file.open(QFile::ReadOnly | QFile::ExistingOnly))
+    {
+        QTextStream stream(&file);
+        darkStyle = stream.readAll();
+        file.close();
+    }
+
     RetranslateUi(Langs::ENG);
 }
 
@@ -189,10 +197,10 @@ void MainWindow::SetTheme(Theme theme)
     switch (theme)
     {
     case Theme::LIGHT:
-        /// TODO: set light theme here
+        application.setStyleSheet("");
         break;
     case Theme::DARK:
-        /// TODO: set dark theme here
+        application.setStyleSheet(darkStyle);
         break;
     }
     aboutForm->SetTheme(theme);
