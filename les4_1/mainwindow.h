@@ -43,17 +43,22 @@ private slots:
     void SetDarkTheme();
     void About();
     void Help();
-
+    void on_explorer_treeView_clicked(const QModelIndex &index);
+    void OnItemSelected(const QString& path);
+signals:
+    void TreeViewSelectItem(const QString& path);
 private:
     void Init();
     void OpenFileFunc();
     void RetranslateUi(Langs lang);
     void SetTheme(Theme theme);
+    void ShowCurrentPath();
 
 private:
     Ui::MainWindow *ui;
     QApplication& application;
     QTranslator translator;
+    QFileSystemModel* model;
 
     QMenu* fileMenu;
     QMenu* editMenu;
