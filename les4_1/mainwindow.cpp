@@ -8,6 +8,7 @@ MainWindow::MainWindow(QApplication& app, QWidget *parent)
       QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , application(app)
+    , model(new QFileSystemModel)
     , filePath("")
 {
     ui->setupUi(this);
@@ -23,6 +24,22 @@ void MainWindow::Init()
 {
     translator.load(langsPath[Langs::ENG]);
     application.installTranslator(&translator);
+
+    ui->explorer_treeView->setModel(model);
+    model->setRootPath(QDir::currentPath());
+    model->setFilter(QDir::AllDirs | QDir::Files | QDir::NoDotAndDotDot | QDir::Drives);
+    model->setNameFilters({"*.txt"});
+    model->setNameFilterDisables(false);
+
+    for(int i = 1; i < model->columnCount(); ++i)
+    {
+        ui->explorer_treeView->hideColumn(i);
+    }
+    ui->explorer_treeView->setHeaderHidden(true);
+
+    connect(this, &MainWindow::TreeViewSelectItem, this, &MainWindow::OnItemSelected);
+
+    ShowCurrentPath();
 
     fileMenu = new QMenu(this);
     editMenu = new QMenu(this);
@@ -105,6 +122,14 @@ void MainWindow::Init()
 
     aboutForm = new AboutForm(this);
     helpForm = new HelpForm(this);
+
+    QFile file(":/dark_style");
+    if (file.open(QFile::ReadOnly | QFile::ExistingOnly))
+    {
+        QTextStream stream(&file);
+        darkStyle = stream.readAll();
+        file.close();
+    }
 
     RetranslateUi(Langs::ENG);
 }
@@ -189,14 +214,31 @@ void MainWindow::SetTheme(Theme theme)
     switch (theme)
     {
     case Theme::LIGHT:
-        /// TODO: set light theme here
+        application.setStyleSheet("");
         break;
     case Theme::DARK:
-        /// TODO: set dark theme here
+        application.setStyleSheet(darkStyle);
         break;
     }
     aboutForm->SetTheme(theme);
     helpForm->SetTheme(theme);
+}
+
+void MainWindow::ShowCurrentPath()
+{
+    QStringList parts  = QDir::currentPath().split("/");
+    if(parts.size())
+    {
+        for (int i = 0; i < parts.size(); ++i)
+        {
+            QString currentPath;
+            for (int j = 0; j <= i; ++j)
+            {
+                currentPath.append(parts.at(j)).append("/");
+            }
+            ui->explorer_treeView->expand(model->index(currentPath));
+        }
+    }
 }
 
 void MainWindow::OpenFile()
@@ -393,3 +435,30 @@ void MainWindow::SetDarkTheme()
         lightCheckable->setChecked(true);
     }
 }
+
+void MainWindow::on_explorer_treeView_clicked(const QModelIndex &index)
+{
+    QString filePath = model->filePath(index);
+    ui->path_lineEdit->setText(filePath);
+    emit TreeViewSelectItem(filePath);
+}
+
+void MainWindow::OnItemSelected(const QString& path)
+{
+    if (path.length() > 0)
+    {
+        int index = path.indexOf(".txt");
+        QFile file(path);
+        if (file.open(QFile::ReadOnly | QFile::ExistingOnly))
+        {
+            if (index != -1 && path.length() - 4 == index)
+            {
+                QTextStream stream(&file);
+                ui->textEdit->setText(stream.readAll());
+                filePath = path;
+                file.close();
+            }
+        }
+    }
+}
+

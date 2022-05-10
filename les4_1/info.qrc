@@ -6,5 +6,6 @@
         <file alias="help_rus">help_rus.txt</file>
         <file alias="lang_eng">QtLanguage_en.qm</file>
         <file alias="lang_rus">QtLanguage_ru.qm</file>
+        <file alias="dark_style">dark_style.qss</file>
     </qresource>
 </RCC>

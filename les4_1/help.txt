@@ -1,3 +1,4 @@
+
 Commands and keyboard shortcuts
 
 Menu 'File':

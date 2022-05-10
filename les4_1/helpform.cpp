@@ -36,10 +36,10 @@ void HelpForm::SetTheme(Theme theme)
     switch (theme)
     {
     case Theme::LIGHT:
-        /// TODO: set light theme here
+        setStyleSheet("");
         break;
     case Theme::DARK:
-        /// TODO: set dark theme here
+        setStyleSheet(darkStyle);
         break;
     }
 }
