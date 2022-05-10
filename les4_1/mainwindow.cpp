@@ -2,6 +2,10 @@
 #include "ui_mainwindow.h"
 
 #include <QMenu>
+#include <QClipboard>
+#include <QMimeData>
+#include <QtPrintSupport/QPrintDialog>
+#include <QtPrintSupport/QPrinter>
 
 MainWindow::MainWindow(QApplication& app, QWidget *parent)
     :
@@ -26,6 +30,7 @@ void MainWindow::Init()
     application.installTranslator(&translator);
 
     ui->explorer_treeView->setModel(model);
+
     model->setRootPath(QDir::currentPath());
     model->setFilter(QDir::AllDirs | QDir::Files | QDir::NoDotAndDotDot | QDir::Drives);
     model->setNameFilters({"*.txt"});
@@ -36,20 +41,26 @@ void MainWindow::Init()
         ui->explorer_treeView->hideColumn(i);
     }
     ui->explorer_treeView->setHeaderHidden(true);
+    ui->explorer_treeView->setColumnWidth(0, 350);
+    ui->explorer_treeView->hide();
 
+    connect(ui->explorer_treeView, &QTreeView::clicked, this, &MainWindow::TreeViewItemClicked);
     connect(this, &MainWindow::TreeViewSelectItem, this, &MainWindow::OnItemSelected);
+    connect(ui->textEdit, &QTextEdit::textChanged, this, &MainWindow::OnTextChanged);
 
     ShowCurrentPath();
 
     fileMenu = new QMenu(this);
     editMenu = new QMenu(this);
     settingsMenu = new QMenu(this);
+    viewMenu = new QMenu(this);
     refMenu = new QMenu(this);
 
-    this->menuBar()->addMenu(fileMenu);
-    this->menuBar()->addMenu(editMenu);
-    this->menuBar()->addMenu(settingsMenu);
-    this->menuBar()->addMenu(refMenu);
+    menuBar()->addMenu(fileMenu);
+    menuBar()->addMenu(editMenu);
+    menuBar()->addMenu(settingsMenu);
+    menuBar()->addMenu(viewMenu);
+    menuBar()->addMenu(refMenu);
 
     newAction = fileMenu->addAction("", this, SLOT(NewFile()), Qt::CTRL + Qt::Key_N);
     openAction = fileMenu->addAction("", this, SLOT(OpenFile()), Qt::CTRL + Qt::Key_O);
@@ -58,12 +69,15 @@ void MainWindow::Init()
     saveAsAction = fileMenu->addAction("", this, SLOT(SaveFileAs()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
     closeAction = fileMenu->addAction("", this, SLOT(CloseFile()), Qt::CTRL + Qt::SHIFT + Qt::Key_C);
     fileMenu->addSeparator();
+    printAction = fileMenu->addAction("", this, SLOT(PrintFile()), Qt::CTRL + Qt::Key_P);
+    fileMenu->addSeparator();
     exitAction = fileMenu->addAction("", this, SLOT(Exit()), Qt::ALT + Qt::Key_F4);
 
     cutAction = editMenu->addAction("", this, SLOT(Cut()), Qt::CTRL + Qt::Key_X);
     copyAction = editMenu->addAction("", this, SLOT(Copy()), Qt::CTRL + Qt::Key_C);
     pasteAction = editMenu->addAction("", this, SLOT(Paste()), Qt::CTRL + Qt::Key_V);
-    deleteAction = editMenu->addAction("", this, SLOT(Delete()), Qt::CTRL + Qt::Key_D);
+    deleteAction = editMenu->addAction("", this, SLOT(Delete()), Qt::Key_Delete);
+    selectAllAction = editMenu->addAction("", this, SLOT(SelectAll()), Qt::CTRL + Qt::Key_A);
     editMenu->addSeparator();
     clearAction = editMenu->addAction("", this, SLOT(Clear()), Qt::CTRL + Qt::Key_K);
 
@@ -116,9 +130,21 @@ void MainWindow::Init()
     darkCheckable->setCheckable(true);
     darkCheckable->setChecked(false);
 
+    explorerCheckable = viewMenu->addAction("", this, SLOT(ShowExplorer()), Qt::CTRL + Qt::Key_E);
+    explorerCheckable->setCheckable(true);
+    explorerCheckable->setChecked(false);
+    viewMenu->addSeparator();
+    mdiCheckable = viewMenu->addAction("", this, SLOT(Mdi()), Qt::CTRL + Qt::Key_M);
+    mdiCheckable->setCheckable(true);
+    mdiCheckable->setChecked(false);
+
     aboutAction = refMenu->addAction("", this, SLOT(About()), Qt::Key_F12);
     refMenu->addSeparator();
     helpAction = refMenu->addAction("", this, SLOT(Help()), Qt::Key_F1);
+
+    fileInfoLabel = new QLabel(this);
+    fileInfoLabel->alignment().setFlag(Qt::AlignmentFlag::AlignLeft);
+    statusBar()->addWidget(fileInfoLabel);
 
     aboutForm = new AboutForm(this);
     helpForm = new HelpForm(this);
@@ -139,6 +165,7 @@ void MainWindow::NewFile()
     ui->textEdit->setReadOnly(false);
     ui->textEdit->clear();
     filePath = "";
+    OnTextChanged();
 }
 
 void MainWindow::OpenFileFunc()
@@ -155,6 +182,7 @@ void MainWindow::OpenFileFunc()
                 QTextStream stream(&file);
                 ui->textEdit->setText(stream.readAll());
                 filePath = path;
+                OnTextChanged();
                 file.close();
             }
         }
@@ -169,6 +197,7 @@ void MainWindow::RetranslateUi(Langs lang)
     fileMenu->setTitle(tr("&File"));
     editMenu->setTitle(tr("&Edit"));
     settingsMenu->setTitle(tr("&Settings"));
+    viewMenu->setTitle(tr("&View"));
     refMenu->setTitle(tr("&Reference"));
 
     newAction->setText(tr("&New"));
@@ -177,12 +206,14 @@ void MainWindow::RetranslateUi(Langs lang)
     saveAction->setText(tr("&Save"));
     saveAsAction->setText(tr("&Save As"));
     closeAction->setText(tr("&Close"));
+    printAction->setText(tr("&Print"));
     exitAction->setText(tr("&Exit"));
 
     cutAction->setText(tr("&Cut"));
     copyAction->setText(tr("&Copy"));
     pasteAction->setText(tr("&Paste"));
     deleteAction->setText(tr("&Delete"));
+    selectAllAction->setText(tr("&Select All"));
     clearAction->setText(tr("&Clear"));
 
     langSubMenu->setTitle(tr("&Language"));
@@ -201,6 +232,9 @@ void MainWindow::RetranslateUi(Langs lang)
     themeSubMenu->setTitle(tr("&Theme"));
     lightCheckable->setText(tr("&Light"));
     darkCheckable->setText(tr("&Dark"));
+
+    explorerCheckable->setText(tr("&Explorer"));
+    mdiCheckable->setText(tr("&MDI"));
 
     aboutAction->setText(tr("&About"));
     helpAction->setText(tr("&Help"));
@@ -255,12 +289,52 @@ void MainWindow::ReadOnlyFile()
 
 void MainWindow::SaveFile()
 {
-
+    if(filePath.isEmpty())
+    {
+        SaveFileAs();
+    }
+    else
+    {
+        QFile file(filePath);
+        if (file.open(QFile::WriteOnly))
+        {
+            QTextStream stream(&file);
+            stream << ui->textEdit->toPlainText();
+            file.close();
+            OnTextChanged();
+        }
+    }
 }
 
 void MainWindow::SaveFileAs()
 {
+    QString s = QFileDialog::getSaveFileName(this, "Save File As", QDir::current().path(), filter);
+    if (s.length() > 0)
+    {
+        QString ext = QString(&(s.data()[s.length() - 4]));
+        if (ext == ".txt")
+        {
+            QFile file(s);
+            if (file.open(QFile::WriteOnly))
+            {
+                QTextStream stream(&file);
+                stream << ui->textEdit->toPlainText();
+                file.close();
+                filePath = s;
+                OnTextChanged();
+            }
+        }
+    }
+}
 
+void MainWindow::PrintFile()
+{
+    QPrinter printer;
+    QPrintDialog dlg(&printer, this);
+    dlg.setWindowTitle("Print");
+    if (dlg.exec() != QDialog::Accepted)
+        return;
+    ui->textEdit->print(&printer);
 }
 
 void MainWindow::CloseFile()
@@ -268,6 +342,7 @@ void MainWindow::CloseFile()
     ui->textEdit->clear();
     ui->textEdit->setReadOnly(false);
     filePath = "";
+    OnTextChanged();
 }
 
 void MainWindow::Exit()
@@ -277,22 +352,47 @@ void MainWindow::Exit()
 
 void MainWindow::Cut()
 {
-
+    QTextCursor cursor = ui->textEdit->textCursor();
+    if(QClipboard* c = QApplication::clipboard())
+    {
+        c->setText(cursor.selectedText());
+    }
+    cursor.removeSelectedText();
 }
 
 void MainWindow::Copy()
 {
-
+    QTextCursor cursor = ui->textEdit->textCursor();
+    if(QClipboard* c = QApplication::clipboard())
+    {
+        c->setText(cursor.selectedText());
+    }
 }
 
 void MainWindow::Paste()
 {
-
+    QTextCursor cursor = ui->textEdit->textCursor();
+    if(QClipboard* c = QApplication::clipboard())
+    {
+        if(const QMimeData* m = c->mimeData())
+        {
+            if(m->hasText())
+            {
+                cursor.insertText(m->text());
+            }
+        }
+    }
 }
 
 void MainWindow::Delete()
 {
+    QTextCursor cursor = ui->textEdit->textCursor();
+    cursor.removeSelectedText();
+}
 
+void MainWindow::SelectAll()
+{
+    ui->textEdit->selectAll();
 }
 
 void MainWindow::Clear()
@@ -330,12 +430,18 @@ void MainWindow::CheckRussian()
 
 void MainWindow::About()
 {
-    aboutForm->show();
+    if(aboutForm)
+    {
+        aboutForm->show();
+    }
 }
 
 void MainWindow::Help()
 {
-    helpForm->show();
+    if(helpForm)
+    {
+        helpForm->show();
+    }
 }
 
 void MainWindow::F2()
@@ -436,10 +542,26 @@ void MainWindow::SetDarkTheme()
     }
 }
 
-void MainWindow::on_explorer_treeView_clicked(const QModelIndex &index)
+void MainWindow::ShowExplorer()
+{
+    if(explorerCheckable->isChecked())
+    {
+        ui->explorer_treeView->show();
+    }
+    else
+    {
+        ui->explorer_treeView->hide();
+    }
+}
+
+void MainWindow::Mdi()
+{
+    // TODO: Switch to mdi mode here
+}
+
+void MainWindow::TreeViewItemClicked(const QModelIndex &index)
 {
     QString filePath = model->filePath(index);
-    ui->path_lineEdit->setText(filePath);
     emit TreeViewSelectItem(filePath);
 }
 
@@ -456,9 +578,22 @@ void MainWindow::OnItemSelected(const QString& path)
                 QTextStream stream(&file);
                 ui->textEdit->setText(stream.readAll());
                 filePath = path;
+                OnTextChanged();
                 file.close();
             }
         }
+    }
+}
+
+void MainWindow::OnTextChanged()
+{
+    if(!filePath.isEmpty())
+    {
+        fileInfoLabel->setText(filePath + "    " + QString::number(ui->textEdit->toPlainText().length()) + " bytes");
+    }
+    else
+    {
+        fileInfoLabel->clear();
     }
 }
 

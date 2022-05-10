@@ -24,12 +24,14 @@ private slots:
     void ReadOnlyFile();
     void SaveFile();
     void SaveFileAs();
+    void PrintFile();
     void CloseFile();
     void Exit();
     void Cut();
     void Copy();
     void Paste();
     void Delete();
+    void SelectAll();
     void Clear();
     void CheckEnglish();
     void CheckRussian();
@@ -41,10 +43,13 @@ private slots:
     void F7();
     void SetLightTheme();
     void SetDarkTheme();
+    void ShowExplorer();
+    void Mdi();
     void About();
     void Help();
-    void on_explorer_treeView_clicked(const QModelIndex &index);
+    void TreeViewItemClicked(const QModelIndex &index);
     void OnItemSelected(const QString& path);
+    void OnTextChanged();
 signals:
     void TreeViewSelectItem(const QString& path);
 private:
@@ -63,6 +68,7 @@ private:
     QMenu* fileMenu;
     QMenu* editMenu;
     QMenu* settingsMenu;
+    QMenu* viewMenu;
     QMenu* refMenu;
     QAction* newAction;
     QAction* openAction;
@@ -70,11 +76,13 @@ private:
     QAction* saveAction;
     QAction* saveAsAction;
     QAction* closeAction;
+    QAction* printAction;
     QAction* exitAction;
     QAction* cutAction;
     QAction* copyAction;
     QAction* pasteAction;
     QAction* deleteAction;
+    QAction* selectAllAction;
     QAction* clearAction;
     QMenu* langSubMenu;
     QAction* engCheckable;
@@ -89,8 +97,12 @@ private:
     QMenu* themeSubMenu;
     QAction* darkCheckable;
     QAction* lightCheckable;
+    QAction* explorerCheckable;
+    QAction* mdiCheckable;
     QAction* aboutAction;
     QAction* helpAction;
+
+    QLabel* fileInfoLabel;
 
     AboutForm* aboutForm;
     HelpForm* helpForm;
