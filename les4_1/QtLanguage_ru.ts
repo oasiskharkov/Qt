@@ -26,183 +26,228 @@
         <translation type="vanished">Текстовый радактор 2.0</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="175"/>
+        <location filename="mainwindow.cpp" line="184"/>
         <source>Text Editor 2.0</source>
         <translation>Текстовый редактор 2.0</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="176"/>
+        <location filename="mainwindow.cpp" line="185"/>
         <source>Text File(*.txt);;All Files(*.*)</source>
         <translation>Текстовые файлы(*.txt);;Все файлы(*.*)</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="178"/>
+        <location filename="mainwindow.cpp" line="187"/>
         <source>&amp;File</source>
         <translation>&amp;Файл</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="179"/>
+        <location filename="mainwindow.cpp" line="188"/>
         <source>&amp;Edit</source>
         <translation>&amp;Редактировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="181"/>
+        <location filename="mainwindow.cpp" line="190"/>
         <source>&amp;View</source>
         <translation>&amp;Вид</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="180"/>
+        <location filename="mainwindow.cpp" line="189"/>
         <source>&amp;Settings</source>
         <translation>&amp;Настройки</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="182"/>
+        <location filename="mainwindow.cpp" line="191"/>
         <source>&amp;Reference</source>
         <translation>&amp;Справка</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="184"/>
+        <location filename="mainwindow.cpp" line="193"/>
         <source>&amp;New</source>
         <translation>&amp;Новый</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="185"/>
+        <location filename="mainwindow.cpp" line="194"/>
         <source>&amp;Open</source>
         <translation>&amp;Открыть</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="186"/>
+        <location filename="mainwindow.cpp" line="195"/>
         <source>&amp;Read Only</source>
         <translation>&amp;Открыть для чтения</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="187"/>
+        <location filename="mainwindow.cpp" line="196"/>
         <source>&amp;Save</source>
         <translation>&amp;Сохранить</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="188"/>
+        <location filename="mainwindow.cpp" line="197"/>
         <source>&amp;Save As</source>
         <translation>&amp;Сохранить как</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="189"/>
+        <location filename="mainwindow.cpp" line="198"/>
         <source>&amp;Close</source>
         <translation>&amp;Закрыть</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="190"/>
+        <location filename="mainwindow.cpp" line="199"/>
         <source>&amp;Print</source>
         <translation>&amp;Печать</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="191"/>
+        <location filename="mainwindow.cpp" line="200"/>
         <source>&amp;Exit</source>
         <translation>&amp;Выйти</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="193"/>
+        <location filename="mainwindow.cpp" line="202"/>
         <source>&amp;Cut</source>
         <translation>&amp;Вырезать</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="194"/>
+        <location filename="mainwindow.cpp" line="203"/>
         <source>&amp;Copy</source>
         <translation>&amp;Копировать</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="195"/>
+        <location filename="mainwindow.cpp" line="204"/>
         <source>&amp;Paste</source>
         <translation>&amp;Вставить</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="196"/>
+        <location filename="mainwindow.cpp" line="205"/>
         <source>&amp;Delete</source>
         <translation>&amp;Удалить</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="197"/>
+        <location filename="mainwindow.cpp" line="206"/>
         <source>&amp;Select All</source>
         <translation>&amp;Выделить все</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="198"/>
+        <location filename="mainwindow.cpp" line="207"/>
         <source>&amp;Clear</source>
         <translation>&amp;Очистить</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="200"/>
+        <location filename="mainwindow.cpp" line="209"/>
+        <source>&amp;Align</source>
+        <translation>&amp;Выровнять</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="210"/>
+        <source>&amp;Left</source>
+        <translation>&amp;По левому краю</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="211"/>
+        <source>&amp;Center</source>
+        <translation>&amp;По центру</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="212"/>
+        <source>&amp;Right</source>
+        <translation>&amp;По правому краю</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="214"/>
+        <source>&amp;Format</source>
+        <translation>&amp;Формат</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="215"/>
+        <source>&amp;Copy Format</source>
+        <translation>&amp;Копировать формат</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="216"/>
+        <source>&amp;Apply Format</source>
+        <translation>&amp;Применить формат</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="217"/>
+        <source>&amp;Reset Format</source>
+        <translation>&amp;Сбросить формат</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="219"/>
         <source>&amp;Language</source>
         <oldsource>Language</oldsource>
         <translation>&amp;Язык</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="202"/>
+        <location filename="mainwindow.cpp" line="220"/>
         <source>&amp;English</source>
         <translation>&amp;Английский</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="203"/>
+        <location filename="mainwindow.cpp" line="221"/>
         <source>&amp;Russian</source>
         <translation>&amp;Русский</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="205"/>
+        <location filename="mainwindow.cpp" line="223"/>
         <source>&amp;Shortcuts</source>
         <translation>&amp;Привязки</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="206"/>
+        <location filename="mainwindow.cpp" line="224"/>
         <source>&amp;New -&gt; F2</source>
         <translation>&amp;Новый -&gt; F2</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="207"/>
+        <location filename="mainwindow.cpp" line="225"/>
         <source>&amp;Open -&gt; F3</source>
         <translation>&amp;Открыть -&gt; F3</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="208"/>
+        <location filename="mainwindow.cpp" line="226"/>
         <source>&amp;Read Only -&gt; F4</source>
         <translation>&amp;Открыть для чтения -&gt; F4</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="209"/>
+        <location filename="mainwindow.cpp" line="227"/>
         <source>&amp;Save -&gt; F5</source>
         <translation>&amp;Сохранить -&gt; F5</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="210"/>
+        <location filename="mainwindow.cpp" line="228"/>
         <source>&amp;Save As -&gt; F6</source>
         <translation>&amp;Сохранить как -&gt; F6</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="211"/>
+        <location filename="mainwindow.cpp" line="229"/>
         <source>&amp;Close -&gt; F7</source>
         <translation>&amp;Закрыть -&gt; F7</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="213"/>
+        <location filename="mainwindow.cpp" line="231"/>
         <source>&amp;Theme</source>
         <translation>&amp;Тема</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="214"/>
+        <location filename="mainwindow.cpp" line="232"/>
         <source>&amp;Light</source>
         <translation>&amp;Светлая</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="215"/>
+        <location filename="mainwindow.cpp" line="233"/>
         <source>&amp;Dark</source>
         <translation>&amp;Тёмная</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="217"/>
+        <location filename="mainwindow.cpp" line="235"/>
+        <source>&amp;Font</source>
+        <translation>&amp;Шрифт</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="237"/>
         <source>&amp;Explorer</source>
         <translation>&amp;Проводник</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="218"/>
+        <location filename="mainwindow.cpp" line="238"/>
         <source>&amp;MDI</source>
         <translation>&amp;МДИ</translation>
     </message>
@@ -231,12 +276,12 @@
         <translation type="vanished">Закрыть -&gt; F7</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="220"/>
+        <location filename="mainwindow.cpp" line="240"/>
         <source>&amp;About</source>
         <translation>&amp;О  программе</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="221"/>
+        <location filename="mainwindow.cpp" line="241"/>
         <source>&amp;Help</source>
         <translation>&amp;Помощь</translation>
     </message>

@@ -33,6 +33,12 @@ private slots:
     void Delete();
     void SelectAll();
     void Clear();
+    void AlignLeft();
+    void AlignCenter();
+    void AlignRight();
+    void CopyFormat();
+    void ApplyFormat();
+    void ResetFormat();
     void CheckEnglish();
     void CheckRussian();
     void F2();
@@ -43,6 +49,7 @@ private slots:
     void F7();
     void SetLightTheme();
     void SetDarkTheme();
+    void ChangeFont();
     void ShowExplorer();
     void Mdi();
     void About();
@@ -58,7 +65,7 @@ private:
     void RetranslateUi(Langs lang);
     void SetTheme(Theme theme);
     void ShowCurrentPath();
-
+    void Align(Qt::Alignment alignment);
 private:
     Ui::MainWindow *ui;
     QApplication& application;
@@ -84,6 +91,14 @@ private:
     QAction* deleteAction;
     QAction* selectAllAction;
     QAction* clearAction;
+    QMenu* alignSubMenu;
+    QAction* alignCenterAction;
+    QAction* alignLeftAction;
+    QAction* alignRightAction;
+    QMenu* formatSubMenu;
+    QAction* copyFormatAction;
+    QAction* applyFormatAction;
+    QAction* resetFormatAction;
     QMenu* langSubMenu;
     QAction* engCheckable;
     QAction* rusCheckable;
@@ -97,6 +112,7 @@ private:
     QMenu* themeSubMenu;
     QAction* darkCheckable;
     QAction* lightCheckable;
+    QAction* fontAction;
     QAction* explorerCheckable;
     QAction* mdiCheckable;
     QAction* aboutAction;
@@ -109,6 +125,7 @@ private:
 
     QString filePath;
     QString filter;
-
+    QPair<QFont, Qt::Alignment> format;
+    bool formatCopied = false;
 };
 #endif // MAINWINDOW_H

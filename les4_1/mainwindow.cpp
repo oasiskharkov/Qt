@@ -78,8 +78,24 @@ void MainWindow::Init()
     pasteAction = editMenu->addAction("", this, SLOT(Paste()), Qt::CTRL + Qt::Key_V);
     deleteAction = editMenu->addAction("", this, SLOT(Delete()), Qt::Key_Delete);
     selectAllAction = editMenu->addAction("", this, SLOT(SelectAll()), Qt::CTRL + Qt::Key_A);
+
     editMenu->addSeparator();
     clearAction = editMenu->addAction("", this, SLOT(Clear()), Qt::CTRL + Qt::Key_K);
+
+    editMenu->addSeparator();
+    alignSubMenu = new QMenu(editMenu);
+    editMenu->addMenu(alignSubMenu);
+    alignLeftAction = alignSubMenu->addAction("", this, SLOT(AlignLeft()));
+    alignCenterAction = alignSubMenu->addAction("", this, SLOT(AlignCenter()));
+    alignRightAction = alignSubMenu->addAction("", this, SLOT(AlignRight()));
+
+    editMenu->addSeparator();
+    formatSubMenu = new QMenu(editMenu);
+    editMenu->addMenu(formatSubMenu);
+
+    copyFormatAction = formatSubMenu->addAction("", this, SLOT(CopyFormat()));
+    applyFormatAction = formatSubMenu->addAction("", this, SLOT(ApplyFormat()));
+    resetFormatAction = formatSubMenu->addAction("", this, SLOT(ResetFormat()));
 
     langSubMenu = new QMenu(settingsMenu);
     settingsMenu->addMenu(langSubMenu);
@@ -130,6 +146,9 @@ void MainWindow::Init()
     darkCheckable->setCheckable(true);
     darkCheckable->setChecked(false);
 
+    settingsMenu->addSeparator();
+    fontAction = settingsMenu->addAction("", this, SLOT(ChangeFont()));
+
     explorerCheckable = viewMenu->addAction("", this, SLOT(ShowExplorer()), Qt::CTRL + Qt::Key_E);
     explorerCheckable->setCheckable(true);
     explorerCheckable->setChecked(false);
@@ -160,35 +179,6 @@ void MainWindow::Init()
     RetranslateUi(Langs::ENG);
 }
 
-void MainWindow::NewFile()
-{
-    ui->textEdit->setReadOnly(false);
-    ui->textEdit->clear();
-    filePath = "";
-    OnTextChanged();
-}
-
-void MainWindow::OpenFileFunc()
-{
-    QString path = QFileDialog::getOpenFileName(this, "Open File", QDir::current().path(), filter);
-    if (path.length() > 0)
-    {
-        int index = path.indexOf(".txt");
-        QFile file(path);
-        if (file.open(QFile::ReadOnly | QFile::ExistingOnly))
-        {
-            if (index != -1 && path.length() - 4 == index)
-            {
-                QTextStream stream(&file);
-                ui->textEdit->setText(stream.readAll());
-                filePath = path;
-                OnTextChanged();
-                file.close();
-            }
-        }
-    }
-}
-
 void MainWindow::RetranslateUi(Langs lang)
 {
     setWindowTitle(tr("Text Editor 2.0"));
@@ -216,8 +206,17 @@ void MainWindow::RetranslateUi(Langs lang)
     selectAllAction->setText(tr("&Select All"));
     clearAction->setText(tr("&Clear"));
 
-    langSubMenu->setTitle(tr("&Language"));
+    alignSubMenu->setTitle(tr("&Align"));
+    alignLeftAction->setText(tr("&Left"));
+    alignCenterAction->setText(tr("&Center"));
+    alignRightAction->setText(tr("&Right"));
 
+    formatSubMenu->setTitle(tr("&Format"));
+    copyFormatAction->setText(tr("&Copy Format"));
+    applyFormatAction->setText(tr("&Apply Format"));
+    resetFormatAction->setText(tr("&Reset Format"));
+
+    langSubMenu->setTitle(tr("&Language"));
     engCheckable->setText(tr("&English"));
     rusCheckable->setText(tr("&Russian"));
 
@@ -233,6 +232,8 @@ void MainWindow::RetranslateUi(Langs lang)
     lightCheckable->setText(tr("&Light"));
     darkCheckable->setText(tr("&Dark"));
 
+    fontAction->setText(tr("&Font"));
+
     explorerCheckable->setText(tr("&Explorer"));
     mdiCheckable->setText(tr("&MDI"));
 
@@ -241,6 +242,35 @@ void MainWindow::RetranslateUi(Langs lang)
 
     aboutForm->RetranslateUi(lang);
     helpForm->RetranslateUi(lang);
+}
+
+void MainWindow::NewFile()
+{
+    ui->textEdit->setReadOnly(false);
+    ui->textEdit->clear();
+    filePath = "";
+    OnTextChanged();
+}
+
+void MainWindow::OpenFileFunc()
+{
+    QString path = QFileDialog::getOpenFileName(this, "Open File", QDir::current().path(), filter);
+    if (path.length() > 0)
+    {
+        int index = path.indexOf(".txt");
+        QFile file(path);
+        if (file.open(QFile::ReadOnly | QFile::ExistingOnly))
+        {
+            if (index != -1 && path.length() - 4 == index)
+            {
+                QTextStream stream(&file);
+                ui->textEdit->setText(stream.readAll());
+                filePath = path;
+                OnTextChanged();
+                file.close();
+            }
+        }
+    }
 }
 
 void MainWindow::SetTheme(Theme theme)
@@ -273,6 +303,15 @@ void MainWindow::ShowCurrentPath()
             ui->explorer_treeView->expand(model->index(currentPath));
         }
     }
+}
+
+void MainWindow::Align(Qt::Alignment alignment)
+{
+    QTextCursor cursor = ui->textEdit->textCursor();
+    QTextBlockFormat textBlockFormat = cursor.blockFormat();
+    textBlockFormat.setAlignment(alignment);
+    cursor.mergeBlockFormat(textBlockFormat);
+    ui->textEdit->setTextCursor(cursor);
 }
 
 void MainWindow::OpenFile()
@@ -398,6 +437,52 @@ void MainWindow::SelectAll()
 void MainWindow::Clear()
 {
     ui->textEdit->clear();
+}
+
+void MainWindow::AlignLeft()
+{
+    Align(Qt::AlignLeft);
+}
+
+void MainWindow::AlignCenter()
+{
+    Align(Qt::AlignCenter);
+}
+
+void MainWindow::AlignRight()
+{
+    Align(Qt::AlignRight);
+}
+
+void MainWindow::CopyFormat()
+{
+    QTextCursor cursor = ui->textEdit->textCursor();
+    Qt::Alignment alignment = cursor.blockFormat().alignment();
+    QFont font = cursor.charFormat().font();
+    format.first = font;
+    format.second = alignment;
+    formatCopied = true;
+}
+
+void MainWindow::ApplyFormat()
+{
+   if(formatCopied)
+   {
+       QTextCursor cursor = ui->textEdit->textCursor();
+       QTextBlockFormat textBlockFormat = cursor.blockFormat();
+       textBlockFormat.setAlignment(format.second);
+       cursor.mergeBlockFormat(textBlockFormat);
+       ui->textEdit->setTextCursor(cursor);
+
+       QTextCharFormat tcf;
+       tcf.setFont(format.first);
+       cursor.setCharFormat(tcf);
+   }
+}
+
+void MainWindow::ResetFormat()
+{
+    formatCopied = false;
 }
 
 void MainWindow::CheckEnglish()
@@ -539,6 +624,21 @@ void MainWindow::SetDarkTheme()
     else
     {
         lightCheckable->setChecked(true);
+    }
+}
+
+void MainWindow::ChangeFont()
+{
+    QFont font = ui->textEdit->textCursor().charFormat().font();
+    QFontDialog fntDlg(font, this);
+    bool answer;
+    font = fntDlg.getFont(&answer);
+
+    if (answer)
+    {
+        QTextCharFormat tcf;
+        tcf.setFont(font);
+        ui->textEdit->textCursor().setCharFormat(tcf);
     }
 }
 

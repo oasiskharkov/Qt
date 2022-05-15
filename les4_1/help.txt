@@ -18,11 +18,14 @@ Paste - press 'Ctrl+V' to paste text from clipboard
 Delete - press 'Ctrl+D' to delete selected text
 Select All - press 'Ctrl+A' to select all text
 Clear - press 'Ctrl+K' to clear all text
+Align - choose option to align selected text
+Format - choose option to format selected text
 
 Menu 'Settings':
 Language - check option to change interface language
 Shortcuts - check option to change keyboard shortcut
 Theme - check option to change editor's external view
+Font - choose option to setup font settings
 
 Menu 'View':
 Explorer - press 'Ctrl+E' to show file explorer
