@@ -135,6 +135,10 @@ QProgressBar::chunk {
 	background-color: #04b97f;
 	border-radius: 5px;
 }
+QTreeView {
+        background-color:#1e1d23;
+        color: #a9b7c6;
+}
 QMenuBar {
 	background-color: #1e1d23;
 }
@@ -712,7 +716,7 @@ QToolBox::tab:selected {
 	background-color: #1e1d23;
 }
 QScrollArea {
-	color: #FFFFFF;
+        color: #FFFFFF;
 	background-color: #1e1d23;
 }
 QSlider::groove:horizontal {

@@ -24,13 +24,21 @@ private slots:
     void ReadOnlyFile();
     void SaveFile();
     void SaveFileAs();
+    void PrintFile();
     void CloseFile();
     void Exit();
     void Cut();
     void Copy();
     void Paste();
     void Delete();
+    void SelectAll();
     void Clear();
+    void AlignLeft();
+    void AlignCenter();
+    void AlignRight();
+    void CopyFormat();
+    void ApplyFormat();
+    void ResetFormat();
     void CheckEnglish();
     void CheckRussian();
     void F2();
@@ -41,10 +49,14 @@ private slots:
     void F7();
     void SetLightTheme();
     void SetDarkTheme();
+    void ChangeFont();
+    void ShowExplorer();
+    void Mdi();
     void About();
     void Help();
-    void on_explorer_treeView_clicked(const QModelIndex &index);
+    void TreeViewItemClicked(const QModelIndex &index);
     void OnItemSelected(const QString& path);
+    void OnTextChanged();
 signals:
     void TreeViewSelectItem(const QString& path);
 private:
@@ -53,7 +65,7 @@ private:
     void RetranslateUi(Langs lang);
     void SetTheme(Theme theme);
     void ShowCurrentPath();
-
+    void Align(Qt::Alignment alignment);
 private:
     Ui::MainWindow *ui;
     QApplication& application;
@@ -63,6 +75,7 @@ private:
     QMenu* fileMenu;
     QMenu* editMenu;
     QMenu* settingsMenu;
+    QMenu* viewMenu;
     QMenu* refMenu;
     QAction* newAction;
     QAction* openAction;
@@ -70,12 +83,22 @@ private:
     QAction* saveAction;
     QAction* saveAsAction;
     QAction* closeAction;
+    QAction* printAction;
     QAction* exitAction;
     QAction* cutAction;
     QAction* copyAction;
     QAction* pasteAction;
     QAction* deleteAction;
+    QAction* selectAllAction;
     QAction* clearAction;
+    QMenu* alignSubMenu;
+    QAction* alignCenterAction;
+    QAction* alignLeftAction;
+    QAction* alignRightAction;
+    QMenu* formatSubMenu;
+    QAction* copyFormatAction;
+    QAction* applyFormatAction;
+    QAction* resetFormatAction;
     QMenu* langSubMenu;
     QAction* engCheckable;
     QAction* rusCheckable;
@@ -89,14 +112,20 @@ private:
     QMenu* themeSubMenu;
     QAction* darkCheckable;
     QAction* lightCheckable;
+    QAction* fontAction;
+    QAction* explorerCheckable;
+    QAction* mdiCheckable;
     QAction* aboutAction;
     QAction* helpAction;
+
+    QLabel* fileInfoLabel;
 
     AboutForm* aboutForm;
     HelpForm* helpForm;
 
     QString filePath;
     QString filter;
-
+    QPair<QFont, Qt::Alignment> format;
+    bool formatCopied = false;
 };
 #endif // MAINWINDOW_H
