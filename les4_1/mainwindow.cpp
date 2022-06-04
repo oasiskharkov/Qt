@@ -6,6 +6,7 @@
 #include <QMimeData>
 #include <QtPrintSupport/QPrintDialog>
 #include <QtPrintSupport/QPrinter>
+#include <QTime>
 
 MainWindow::MainWindow(QApplication& app, QWidget *parent)
     :
@@ -26,6 +27,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::Init()
 {
+    move(QApplication::desktop()->screen()->rect().center() - this->rect().center());
+
     translator.load(langsPath[Langs::ENG]);
     application.installTranslator(&translator);
 
@@ -78,6 +81,10 @@ void MainWindow::Init()
     pasteAction = editMenu->addAction("", this, SLOT(Paste()), Qt::CTRL + Qt::Key_V);
     deleteAction = editMenu->addAction("", this, SLOT(Delete()), Qt::Key_Delete);
     selectAllAction = editMenu->addAction("", this, SLOT(SelectAll()), Qt::CTRL + Qt::Key_A);
+
+    editMenu->addSeparator();
+    insertDateAction = editMenu->addAction("", this, SLOT(InsertDate()), Qt::CTRL + Qt::Key_D);
+    insertTimeAction = editMenu->addAction("", this, SLOT(InsertTime()), Qt::CTRL + Qt::Key_T);
 
     editMenu->addSeparator();
     clearAction = editMenu->addAction("", this, SLOT(Clear()), Qt::CTRL + Qt::Key_K);
@@ -205,6 +212,8 @@ void MainWindow::RetranslateUi(Langs lang)
     deleteAction->setText(tr("&Delete"));
     selectAllAction->setText(tr("&Select All"));
     clearAction->setText(tr("&Clear"));
+    insertDateAction->setText(tr("&Insert Date"));
+    insertTimeAction->setText(tr("&Insert Time"));
 
     alignSubMenu->setTitle(tr("&Align"));
     alignLeftAction->setText(tr("&Left"));
@@ -437,6 +446,24 @@ void MainWindow::SelectAll()
 void MainWindow::Clear()
 {
     ui->textEdit->clear();
+}
+
+void MainWindow::InsertDate()
+{
+    InsertDateTime("dd-MM-yyyy");
+}
+
+void MainWindow::InsertTime()
+{
+    InsertDateTime("HH:mm:ss");
+}
+
+void MainWindow::InsertDateTime(const QString& format)
+{
+    QDateTime dateTime = QDateTime::currentDateTime();
+    QString date = dateTime.toString(format);
+    QTextCursor cursor = ui->textEdit->textCursor();
+    cursor.insertText(date);
 }
 
 void MainWindow::AlignLeft()

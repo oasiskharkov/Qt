@@ -18,6 +18,8 @@ Paste - press 'Ctrl+V' to paste text from clipboard
 Delete - press 'Ctrl+D' to delete selected text
 Select All - press 'Ctrl+A' to select all text
 Clear - press 'Ctrl+K' to clear all text
+Insert Date - press 'Ctrl+D' to insert current date
+Insert Time - press 'Ctrl+T' to insert current time
 Align - choose option to align selected text
 Format - choose option to format selected text
 

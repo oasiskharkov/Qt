@@ -33,6 +33,8 @@ private slots:
     void Delete();
     void SelectAll();
     void Clear();
+    void InsertDate();
+    void InsertTime();
     void AlignLeft();
     void AlignCenter();
     void AlignRight();
@@ -66,6 +68,7 @@ private:
     void SetTheme(Theme theme);
     void ShowCurrentPath();
     void Align(Qt::Alignment alignment);
+    void InsertDateTime(const QString& format);
 private:
     Ui::MainWindow *ui;
     QApplication& application;
@@ -91,6 +94,8 @@ private:
     QAction* deleteAction;
     QAction* selectAllAction;
     QAction* clearAction;
+    QAction* insertDateAction;
+    QAction* insertTimeAction;
     QMenu* alignSubMenu;
     QAction* alignCenterAction;
     QAction* alignLeftAction;
