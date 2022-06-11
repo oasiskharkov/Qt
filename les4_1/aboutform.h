@@ -17,7 +17,6 @@ public:
     explicit AboutForm(QWidget *parent = nullptr);
     ~AboutForm();
     void RetranslateUi(Langs lang);
-    void SetTheme(Theme theme);
 
 private:
     void Init();

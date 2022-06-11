@@ -32,6 +32,10 @@ void MainWindow::Init()
     translator.load(langsPath[Langs::ENG]);
     application.installTranslator(&translator);
 
+    aboutForm = new AboutForm(this);
+    helpForm = new HelpForm(this);
+    fileFinderForm = new FileFinderForm(this);
+
     ui->explorer_treeView->setModel(model);
 
     model->setRootPath(QDir::currentPath());
@@ -50,8 +54,7 @@ void MainWindow::Init()
     connect(ui->explorer_treeView, &QTreeView::clicked, this, &MainWindow::TreeViewItemClicked);
     connect(this, &MainWindow::TreeViewSelectItem, this, &MainWindow::OnItemSelected);
     connect(ui->textEdit, &QTextEdit::textChanged, this, &MainWindow::OnTextChanged);
-
-    ShowCurrentPath();
+    connect(fileFinderForm, &FileFinderForm::OpenFoundFile, this, &MainWindow::OpenFoundFile);
 
     fileMenu = new QMenu(this);
     editMenu = new QMenu(this);
@@ -71,6 +74,7 @@ void MainWindow::Init()
     saveAction = fileMenu->addAction("", this, SLOT(SaveFile()), Qt::CTRL + Qt::Key_S);
     saveAsAction = fileMenu->addAction("", this, SLOT(SaveFileAs()), Qt::CTRL + Qt::SHIFT + Qt::Key_S);
     closeAction = fileMenu->addAction("", this, SLOT(CloseFile()), Qt::CTRL + Qt::SHIFT + Qt::Key_C);
+    findFileAction = fileMenu->addAction("", this, SLOT(FindFile()), Qt::CTRL + Qt::Key_F);
     fileMenu->addSeparator();
     printAction = fileMenu->addAction("", this, SLOT(PrintFile()), Qt::CTRL + Qt::Key_P);
     fileMenu->addSeparator();
@@ -159,10 +163,6 @@ void MainWindow::Init()
     explorerCheckable = viewMenu->addAction("", this, SLOT(ShowExplorer()), Qt::CTRL + Qt::Key_E);
     explorerCheckable->setCheckable(true);
     explorerCheckable->setChecked(false);
-    viewMenu->addSeparator();
-    mdiCheckable = viewMenu->addAction("", this, SLOT(Mdi()), Qt::CTRL + Qt::Key_M);
-    mdiCheckable->setCheckable(true);
-    mdiCheckable->setChecked(false);
 
     aboutAction = refMenu->addAction("", this, SLOT(About()), Qt::Key_F12);
     refMenu->addSeparator();
@@ -171,9 +171,6 @@ void MainWindow::Init()
     fileInfoLabel = new QLabel(this);
     fileInfoLabel->alignment().setFlag(Qt::AlignmentFlag::AlignLeft);
     statusBar()->addWidget(fileInfoLabel);
-
-    aboutForm = new AboutForm(this);
-    helpForm = new HelpForm(this);
 
     QFile file(":/dark_style");
     if (file.open(QFile::ReadOnly | QFile::ExistingOnly))
@@ -203,6 +200,7 @@ void MainWindow::RetranslateUi(Langs lang)
     saveAction->setText(tr("&Save"));
     saveAsAction->setText(tr("&Save As"));
     closeAction->setText(tr("&Close"));
+    findFileAction->setText(tr("&Find File"));
     printAction->setText(tr("&Print"));
     exitAction->setText(tr("&Exit"));
 
@@ -244,13 +242,13 @@ void MainWindow::RetranslateUi(Langs lang)
     fontAction->setText(tr("&Font"));
 
     explorerCheckable->setText(tr("&Explorer"));
-    mdiCheckable->setText(tr("&MDI"));
 
     aboutAction->setText(tr("&About"));
     helpAction->setText(tr("&Help"));
 
     aboutForm->RetranslateUi(lang);
     helpForm->RetranslateUi(lang);
+    fileFinderForm->RetranslateUi();
 }
 
 void MainWindow::NewFile()
@@ -293,13 +291,11 @@ void MainWindow::SetTheme(Theme theme)
         application.setStyleSheet(darkStyle);
         break;
     }
-    aboutForm->SetTheme(theme);
-    helpForm->SetTheme(theme);
 }
 
-void MainWindow::ShowCurrentPath()
+void MainWindow::ShowCurrentPath(const QString& path)
 {
-    QStringList parts  = QDir::currentPath().split("/");
+    QStringList parts = path.split("/");
     if(parts.size())
     {
         for (int i = 0; i < parts.size(); ++i)
@@ -391,6 +387,15 @@ void MainWindow::CloseFile()
     ui->textEdit->setReadOnly(false);
     filePath = "";
     OnTextChanged();
+}
+
+void MainWindow::FindFile()
+{
+    if(fileFinderForm)
+    {
+        fileFinderForm->ResetView();
+        fileFinderForm->show();
+    }
 }
 
 void MainWindow::Exit()
@@ -681,11 +686,6 @@ void MainWindow::ShowExplorer()
     }
 }
 
-void MainWindow::Mdi()
-{
-    // TODO: Switch to mdi mode here
-}
-
 void MainWindow::TreeViewItemClicked(const QModelIndex &index)
 {
     QString filePath = model->filePath(index);
@@ -722,5 +722,14 @@ void MainWindow::OnTextChanged()
     {
         fileInfoLabel->clear();
     }
+}
+
+void MainWindow::OpenFoundFile(const QString& path)
+{
+    if(explorerCheckable->isChecked())
+    {
+        ShowCurrentPath(path);
+    }
+    OnItemSelected(path);
 }
 

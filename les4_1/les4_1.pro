@@ -10,18 +10,23 @@ CONFIG += c++17
 
 SOURCES += \
     aboutform.cpp \
+    filefinderform.cpp \
+    finder.cpp \
     helpform.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     aboutform.h \
+    filefinderform.h \
+    finder.h \
     helpform.h \
     mainwindow.h \
     service.h
 
 FORMS += \
     aboutform.ui \
+    filefinderform.ui \
     helpform.ui \
     mainwindow.ui
 

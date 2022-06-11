@@ -31,22 +31,9 @@ void AboutForm::RetranslateUi(Langs lang)
     }
 }
 
-void AboutForm::SetTheme(Theme theme)
-{
-    switch (theme)
-    {
-    case Theme::LIGHT:
-        setStyleSheet("");
-        break;
-    case Theme::DARK:
-        setStyleSheet(darkStyle);
-        break;
-    }
-}
-
 void AboutForm::Init()
 {
-    this->setWindowFlags(Qt::Dialog);
+    setWindowFlags(Qt::Dialog);
 
     QString path = ":/about_";
     QFile file_eng(path + "eng");
