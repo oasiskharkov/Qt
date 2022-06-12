@@ -24,6 +24,7 @@ public:
 
 signals:
     void OpenFoundFile(const QString& path);
+
 private slots:
     void Clear();
     void InputPath();
@@ -32,7 +33,6 @@ private slots:
     void OpenSelectedFile();
     void WriteEntryToList(const QString& path);
     void SearchStopped();
-
 
 private:
     void Init();
@@ -46,6 +46,7 @@ private:
     QSharedPointer<Finder> finder;
     QMutex mutex;
     bool searchStopped;
+
 };
 
 #endif // FILEFINDERFORM_H

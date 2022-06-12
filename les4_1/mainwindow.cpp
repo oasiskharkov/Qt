@@ -307,6 +307,8 @@ void MainWindow::ShowCurrentPath(const QString& path)
             }
             ui->explorer_treeView->expand(model->index(currentPath));
         }
+        auto index = model->index(path);
+        ui->explorer_treeView->selectionModel()->select(index , QItemSelectionModel::Rows | QItemSelectionModel::Select);
     }
 }
 

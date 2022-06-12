@@ -25,8 +25,19 @@ void Finder::run()
         int amount = foundDirs.count();
         for (int j = 0; j < amount && !stopped; j++)
         {
-            QString newPath = dirs.at(i) + foundDirs[j] + "/";
-            if (newPath.indexOf("/.") == -1) dirs << newPath;
+            QString newPath;
+            if (dirs.at(i).back() == '/')
+            {
+                newPath = dirs.at(i) + foundDirs[j];
+            }
+            else
+            {
+                newPath = dirs.at(i) + "/" + foundDirs[j];
+            }
+            if (newPath.indexOf("/.") == -1)
+            {
+                dirs << newPath;
+            }
         }
 
         search.setFilter(QDir::Hidden | QDir::Files | QDir::NoSymLinks);

@@ -61,8 +61,10 @@ private slots:
     void OnItemSelected(const QString& path);
     void OnTextChanged();
     void OpenFoundFile(const QString& path);
+
 signals:
     void TreeViewSelectItem(const QString& path);
+
 private:
     void Init();
     void OpenFileFunc();
@@ -71,6 +73,7 @@ private:
     void ShowCurrentPath(const QString& path);
     void Align(Qt::Alignment alignment);
     void InsertDateTime(const QString& format);
+
 private:
     Ui::MainWindow *ui;
     QApplication& application;
@@ -135,5 +138,6 @@ private:
     QString filter;
     QPair<QFont, Qt::Alignment> format;
     bool formatCopied = false;
+
 };
 #endif // MAINWINDOW_H

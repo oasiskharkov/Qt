@@ -12,13 +12,16 @@ public:
     void run() override;
     void Stop(bool stop);
     bool IsStopped() const;
+
 signals:
     void ThreadStopped();
     void FileFound(const QString& path);
+
 private:
     QString dir;
     QString fileName;
     bool stopped;
+
 };
 
 #endif // FINDER_H

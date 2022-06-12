@@ -25,6 +25,7 @@ private:
     Ui::AboutForm *ui;
     QString text_eng;
     QString text_rus;
+
 };
 
 #endif // ABOUTFORM_H
