@@ -3,7 +3,6 @@
 
 #include <QAbstractTableModel>
 #include <QVector>
-#include "addwidget.h"
 
 class TableModel : public QAbstractTableModel
 {
@@ -11,7 +10,6 @@ class TableModel : public QAbstractTableModel
     enum TableRoles {
         TableDataRole = Qt::UserRole + 1,
         HeadingRole
-
     };
 
 private:
@@ -23,16 +21,15 @@ public:
     QVariant data(const QModelIndex &index, int role) const override;
     QHash<int, QByteArray> roleNames() const override;
     Q_INVOKABLE void onClear();
-    Q_INVOKABLE void onClose();
+    Q_INVOKABLE void onSave();
     Q_INVOKABLE void onRemove(int index);
-    Q_INVOKABLE void onAdd();
+    Q_INVOKABLE void onAdd(const QString& task, const QString& date, const QString& priority);
 
 private:
     void LoadData();
     void SaveData();
     QStringList ParseEntry(const QString& line) const;
     QVector<QStringList> entries;
-    AddWidget* aw;
 };
 
 #endif // TABLEMODEL_H

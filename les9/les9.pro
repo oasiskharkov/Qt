@@ -10,8 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        tablemodel.cpp \
-        addwidget.cpp
+        tablemodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -27,5 +26,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    tablemodel.h \
-    addwidget.h
+    tablemodel.h

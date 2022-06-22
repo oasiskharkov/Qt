@@ -16,7 +16,7 @@ TableModel::TableModel(QObject* parent) :
 
 void TableModel::Init()
 {
-    entries.append({"Task", "Date", "Priority"});
+    entries.append({"", "Task", "Date", "Priority"});
     LoadData();
 }
 
@@ -31,6 +31,7 @@ void TableModel::LoadData()
             QStringList entry = ParseEntry(in.readLine());
             if(COLUMNS_COUNT == entry.size())
             {
+                entry.insert(0, "");
                 entries.append(entry);
             }
         }
@@ -46,7 +47,7 @@ void TableModel::SaveData()
         QTextStream out(&file);
         for(int i = 1; i < entries.size(); ++i)
         {
-            out << entries.at(i).at(0) << " " << entries.at(i).at(1) << " " << entries.at(i).at(2) << endl;
+            out << entries.at(i).at(1) << " " << entries.at(i).at(2) << " " << entries.at(i).at(3) << endl;
         }
         file.close();
     }
@@ -84,7 +85,18 @@ QVariant TableModel::data(const QModelIndex &index, int role) const
     switch (role) {
     case TableDataRole:
     {
-        return entries.at(index.row()).at(index.column());
+        if(index.column() == 0)
+        {
+            if(index.row() == 0)
+            {
+                return "#";
+            }
+            return QString::number(index.row());
+        }
+        else
+        {
+            return entries.at(index.row()).at(index.column());
+        }
     }
     case HeadingRole:
     {
@@ -113,7 +125,7 @@ QHash<int, QByteArray> TableModel::roleNames() const
     return roles;
 }
 
-void TableModel::onClose()
+void TableModel::onSave()
 {
     SaveData();
 }
@@ -122,7 +134,7 @@ void TableModel::onRemove(int index)
 {
     if(index >= 0 && index < entries.size())
     {
-        beginRemoveRows(QModelIndex(), rowCount(), rowCount());
+        beginRemoveRows(QModelIndex(), 0, rowCount());
         entries.removeAt(index);
         endRemoveRows();
     }
@@ -130,16 +142,15 @@ void TableModel::onRemove(int index)
 
 void TableModel::onClear()
 {
-    beginRemoveRows(QModelIndex(), rowCount(), rowCount());
+    beginRemoveRows(QModelIndex(), 0, rowCount());
     entries.erase(entries.begin() + 1, entries.end());
     endRemoveRows();
 }
 
-void TableModel::onAdd()
+void TableModel::onAdd(const QString& task, const QString& date, const QString& priority)
 {
-    if(aw)
-    {
-        aw->show();
-    }
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    entries.append(QStringList{"", task, date, priority});
+    endInsertRows();
 }
 
