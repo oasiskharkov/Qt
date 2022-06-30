@@ -31,22 +31,9 @@ void HelpForm::RetranslateUi(Langs lang)
     }
 }
 
-void HelpForm::SetTheme(Theme theme)
-{
-    switch (theme)
-    {
-    case Theme::LIGHT:
-        setStyleSheet("");
-        break;
-    case Theme::DARK:
-        setStyleSheet(darkStyle);
-        break;
-    }
-}
-
 void HelpForm::Init()
 {
-    this->setWindowFlags(Qt::Dialog);
+    setWindowFlags(Qt::Dialog);
 
     QString path = ":/help_";
     QFile file_eng(path + "eng");

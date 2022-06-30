@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>FileFinderForm</class>
+ <widget class="QWidget" name="FileFinderForm">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>520</width>
+    <height>350</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <property name="leftMargin">
+    <number>6</number>
+   </property>
+   <property name="topMargin">
+    <number>6</number>
+   </property>
+   <property name="rightMargin">
+    <number>6</number>
+   </property>
+   <property name="bottomMargin">
+    <number>6</number>
+   </property>
+   <property name="spacing">
+    <number>6</number>
+   </property>
+   <item row="1" column="0">
+    <widget class="QLabel" name="findIn_label">
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>Find In</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="5">
+    <widget class="QPushButton" name="search_pushButton">
+     <property name="text">
+      <string>Search</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="5">
+    <widget class="QPushButton" name="open_pushButton">
+     <property name="text">
+      <string>Open</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="5">
+    <widget class="QPushButton" name="clear_pushButton">
+     <property name="text">
+      <string>Clear</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0" rowspan="6" colspan="2">
+    <widget class="QListView" name="files_listView"/>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="fileName_label">
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>File Name</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5">
+    <widget class="QPushButton" name="path_pushButton">
+     <property name="text">
+      <string>Path</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="fileName_lineEdit"/>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="path_lineEdit"/>
+   </item>
+   <item row="3" column="5">
+    <widget class="QPushButton" name="stop_pushButton">
+     <property name="text">
+      <string>Stop</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
