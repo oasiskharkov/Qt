@@ -4,6 +4,8 @@ import QtQuick.Controls 2.12
 import QtQuick.Dialogs 1.2
 import QtQml.Models 2.12
 import TableModel 0.1
+import Qt.labs.qmlmodels 1.0
+import QtQuick.Controls.Material 2.12
 
 ApplicationWindow {
     id: mainWindow
@@ -25,19 +27,36 @@ ApplicationWindow {
         else if (col === 2 || col === 3) return 75
     }
 
-    function paintSelectedRow(header, cell)
+    function setFontBold(row)
     {
-        if (header === false)
-        {
-            cell.color = "light blue"
-        }
+        return (row === 0 ? true : false)
     }
 
-    function clear()
+    function clearEntry()
     {
         taskEdit.text = ""
         priority.currentIndex = 0
         calendar.text = "";
+    }
+
+    function setHorizontalCenterAnchors(row, col, parent)
+    {
+        return row === 0 || col === 0 || col === 2 || col === 3 ? parent.horizontalCenter : undefined
+    }
+
+    function setLeftAnchors(row, col, parent)
+    {
+        return row !== 0 && col === 1 ? parent.left : undefined
+    }
+
+    function isHighlighted(row)
+    {
+        return row === selectedIndex && row !== 0
+    }
+
+    function getCellColor(header)
+    {
+        return header ? "light blue" : "white"
     }
 
     ColumnLayout
@@ -45,6 +64,7 @@ ApplicationWindow {
         anchors.fill: parent
         anchors.margins: 1
         spacing: 1
+        antialiasing: true
 
         TableView {
             id: task_list
@@ -66,20 +86,35 @@ ApplicationWindow {
                 id: cell
                 implicitWidth: getWidth(column)
                 implicitHeight: 30
-                color: (header ? "pink" : "white")
+                color: getCellColor(header)
 
                 Text {
                     id: text
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.left: setLeftAnchors(row, column, parent)
+                    anchors.horizontalCenter: setHorizontalCenterAnchors(row, column, parent)
                     anchors.verticalCenter: parent.verticalCenter
                     text: tabledata
-                    font.bold: (row === 0 ? true : false)
+                    font.bold: setFontBold(row)
+                }
+
+                ItemDelegate {
+                    id: selectedItem
+                    implicitWidth: getWidth(column)
+                    implicitHeight: 30
+                    highlighted: isHighlighted(row)
+
+                    Text {
+                        id: selectedText
+                        anchors.left: setLeftAnchors(row, column, parent)
+                        anchors.horizontalCenter: setHorizontalCenterAnchors(row, column, parent)
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: (isHighlighted(row) ? tabledata : "")
+                    }
                 }
 
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: { sm.select(tableModel.index(row, column), ItemSelectionModel.Select | ItemSelectionModel.Current);
-                        selectedIndex = row; paintSelectedRow(header, cell) }
+                    onClicked: { sm.select(tableModel.index(row, column), ItemSelectionModel.Select | ItemSelectionModel.Current); selectedIndex = row }
                 }
             }
         }
@@ -134,13 +169,12 @@ ApplicationWindow {
 
     Dialog {
         id: add_entry_dialog
-        title: "Add Entry"
+        title: "Add Task"
         width: 300
         height: 94
 
         contentItem: Rectangle {
-            anchors.margins: 1
-
+            antialiasing: true
             ColumnLayout
             {
                 anchors.margins: 1
@@ -201,6 +235,7 @@ ApplicationWindow {
                         Layout.preferredWidth:  105
                         model: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
                         Layout.preferredHeight: 30
+                        background: Rectangle { color: "white" }
                     }
                 }
 
@@ -226,7 +261,7 @@ ApplicationWindow {
                         Layout.preferredHeight: 30
                         Layout.fillWidth: true
                         text: qsTr("Clear")
-                        onClicked: { clear() }
+                        onClicked: { clearEntry() }
                     }
                 }
             }
