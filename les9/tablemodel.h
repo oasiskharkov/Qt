@@ -24,6 +24,8 @@ public:
     Q_INVOKABLE void onSave();
     Q_INVOKABLE void onRemove(int index);
     Q_INVOKABLE void onAdd(const QString& task, const QString& date, const QString& priority);
+    Q_INVOKABLE int entriesCount() const;
+    Q_INVOKABLE bool checkDate(const QString& date);
 
 private:
     void LoadData();
