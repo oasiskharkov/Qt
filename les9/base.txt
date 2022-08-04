@@ -1,0 +1,4 @@
+Do homework 26.06.22 5
+Do cleaning 21.06.22 3
+Do job      19.06.22 0
+Do task     23.06.22 10

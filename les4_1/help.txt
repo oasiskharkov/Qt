@@ -8,6 +8,7 @@ Read Only - press 'Ctrl+Shift+O' to only read existing file
 Save - press 'Ctrl+S' to save opened file
 Save As - press 'Ctrl+Shift+S' to save opened file as
 Close - press 'Ctrl+Shift+C' to close opened file
+Find File - press 'Ctrl+F' to open find file dialog
 Print - press 'Ctrl+P' to print opened file
 Exit - press 'Alt+F4' to exit program
 
@@ -18,6 +19,8 @@ Paste - press 'Ctrl+V' to paste text from clipboard
 Delete - press 'Ctrl+D' to delete selected text
 Select All - press 'Ctrl+A' to select all text
 Clear - press 'Ctrl+K' to clear all text
+Insert Date - press 'Ctrl+D' to insert current date
+Insert Time - press 'Ctrl+T' to insert current time
 Align - choose option to align selected text
 Format - choose option to format selected text
 
@@ -29,7 +32,6 @@ Font - choose option to setup font settings
 
 Menu 'View':
 Explorer - press 'Ctrl+E' to show file explorer
-MDI - press 'Ctrl+M' to use multiple document interface
 
 Menu 'Reference':
 About - press 'F12' to show program information

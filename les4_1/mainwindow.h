@@ -5,6 +5,7 @@
 
 #include "aboutform.h"
 #include "helpform.h"
+#include "filefinderform.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,6 +27,7 @@ private slots:
     void SaveFileAs();
     void PrintFile();
     void CloseFile();
+    void FindFile();
     void Exit();
     void Cut();
     void Copy();
@@ -33,6 +35,8 @@ private slots:
     void Delete();
     void SelectAll();
     void Clear();
+    void InsertDate();
+    void InsertTime();
     void AlignLeft();
     void AlignCenter();
     void AlignRight();
@@ -51,21 +55,25 @@ private slots:
     void SetDarkTheme();
     void ChangeFont();
     void ShowExplorer();
-    void Mdi();
     void About();
     void Help();
     void TreeViewItemClicked(const QModelIndex &index);
     void OnItemSelected(const QString& path);
     void OnTextChanged();
+    void OpenFoundFile(const QString& path);
+
 signals:
     void TreeViewSelectItem(const QString& path);
+
 private:
     void Init();
     void OpenFileFunc();
     void RetranslateUi(Langs lang);
     void SetTheme(Theme theme);
-    void ShowCurrentPath();
+    void ShowCurrentPath(const QString& path);
     void Align(Qt::Alignment alignment);
+    void InsertDateTime(const QString& format);
+
 private:
     Ui::MainWindow *ui;
     QApplication& application;
@@ -83,6 +91,7 @@ private:
     QAction* saveAction;
     QAction* saveAsAction;
     QAction* closeAction;
+    QAction* findFileAction;
     QAction* printAction;
     QAction* exitAction;
     QAction* cutAction;
@@ -91,6 +100,8 @@ private:
     QAction* deleteAction;
     QAction* selectAllAction;
     QAction* clearAction;
+    QAction* insertDateAction;
+    QAction* insertTimeAction;
     QMenu* alignSubMenu;
     QAction* alignCenterAction;
     QAction* alignLeftAction;
@@ -114,7 +125,6 @@ private:
     QAction* lightCheckable;
     QAction* fontAction;
     QAction* explorerCheckable;
-    QAction* mdiCheckable;
     QAction* aboutAction;
     QAction* helpAction;
 
@@ -122,10 +132,12 @@ private:
 
     AboutForm* aboutForm;
     HelpForm* helpForm;
+    FileFinderForm* fileFinderForm;
 
     QString filePath;
     QString filter;
     QPair<QFont, Qt::Alignment> format;
     bool formatCopied = false;
+
 };
 #endif // MAINWINDOW_H
