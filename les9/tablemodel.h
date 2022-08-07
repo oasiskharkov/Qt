@@ -14,6 +14,9 @@ class TableModel : public QAbstractTableModel
 
 private:
     void Init();
+    void LoadData();
+    void SaveData();
+
 public:   
     TableModel(QObject* parent = nullptr);
     int rowCount(const QModelIndex & = QModelIndex()) const override;
@@ -26,11 +29,11 @@ public:
     Q_INVOKABLE void onAdd(const QString& task, const QString& date, const QString& priority);
     Q_INVOKABLE int entriesCount() const;
     Q_INVOKABLE bool checkDate(const QString& date);
+    QStringList parseEntry(const QString& line) const;
+    QStringList getRow(int index) const;
+    bool findTask(const QString& task) const;
 
 private:
-    void LoadData();
-    void SaveData();
-    QStringList ParseEntry(const QString& line) const;
     QVector<QStringList> entries;
 };
 

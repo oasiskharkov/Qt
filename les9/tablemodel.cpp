@@ -29,11 +29,15 @@ void TableModel::LoadData()
         QTextStream in(&file);
         while (!in.atEnd())
         {
-            QStringList entry = ParseEntry(in.readLine());
+            QStringList entry = parseEntry(in.readLine());
             if(COLUMNS_COUNT == entry.size())
             {
                 entry.insert(0, "");
                 entries.append(entry);
+            }
+            else
+            {
+                qWarning() << "Incorrect entry";
             }
         }
         file.close();
@@ -56,7 +60,7 @@ void TableModel::SaveData()
     }
 }
 
-QStringList TableModel::ParseEntry(const QString& line) const
+QStringList TableModel::parseEntry(const QString& line) const
 {
     QStringList entry;
     int pos1 = line.indexOf(QRegExp("[0-9]"));
@@ -186,5 +190,24 @@ bool TableModel::checkDate(const QString& date)
 {
     QRegExp rx("(0[1-9]|[12][0-9]|3[01])[-/.](0[1-9]|1[012])[-/.](19\\d{2}|20\\d{2})");
     return rx.exactMatch(date);
+}
+
+QStringList TableModel::getRow(int index) const
+{
+    if(index >= 0 && index < entries.size())
+    {
+        return entries.at(index);
+    }
+    return QStringList{};
+}
+
+bool TableModel::findTask(const QString& task) const
+{
+    auto it = std::find_if(entries.begin(), entries.end(), [task](const auto& entry) { return entry[1] == task; });
+    if(it != entries.end())
+    {
+        return true;
+    }
+    return false;
 }
 
