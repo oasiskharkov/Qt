@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(online_timer, &QTimer::timeout, this, &MainWindow::on_online_timer);
     connect(invite, &InviteForm::set_nickname, this, &MainWindow::on_nickname_set);
     connect(udpSocket, &QUdpSocket::readyRead, this, &MainWindow::process_pending_datagrams);
+    connect(invite, &InviteForm::get_users_list, this, &MainWindow::on_get_users_list);
 
     timer->setSingleShot(true);
     timer->setInterval(500);
@@ -153,5 +154,10 @@ void MainWindow::process_pending_datagrams()
             ui->chat_textEdit->append(message);
         }
     }
+}
+
+void MainWindow::on_get_users_list(QStringList& usersList)
+{
+    usersList = model->stringList();
 }
 

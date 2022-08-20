@@ -34,6 +34,7 @@ private slots:
     void on_message_lineEdit_returnPressed();
     void on_send_pushButton_clicked();
     void process_pending_datagrams();
+    void on_get_users_list(QStringList& usersList);
 
 private:
     Ui::MainWindow *ui;

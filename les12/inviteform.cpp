@@ -4,7 +4,7 @@
 #include <QRegExp>
 #include <QCloseEvent>
 
-InviteForm::InviteForm(QWidget *parent) :
+InviteForm::InviteForm(QWidget *parent):
     QWidget{parent},
     ui{new Ui::InviteForm}
 {
@@ -31,6 +31,15 @@ void InviteForm::closeEvent(QCloseEvent* event)
         event->ignore();
         return;
     }
+    emit get_users_list(usersList);
+    auto it = std::find_if(usersList.begin(), usersList.end(), [nickname](const auto& nick) {return nick == nickname; });
+    if(it != usersList.end())
+    {
+        QMessageBox::warning(this, "Same user", "Choose another nickname, such user is already in list!");
+        event->ignore();
+        return;
+    }
+
     emit set_nickname(nickname);
     event->accept();
 }
