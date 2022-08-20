@@ -1,12 +1,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QDebug>
 #include <QMessageBox>
-#include <QStyledItemDelegate>
-#include <QDate>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow{parent}

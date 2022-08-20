@@ -22,7 +22,6 @@ void AddForm::on_clear_pushButton_clicked()
     reset_values();
 }
 
-
 void AddForm::on_add_pushButton_clicked()
 {
     if(ui->task_lineEdit->text().isEmpty())

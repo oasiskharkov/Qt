@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QSqlTableModel>
-#include <QSqlQuery>
 #include <QSqlDatabase>
 #include "addform.h"
 
