@@ -14,6 +14,7 @@ class InviteForm : public QWidget
 public:
     explicit InviteForm(QWidget *parent = nullptr);
     ~InviteForm();
+
 protected:
     void closeEvent(QCloseEvent* event) override;
 
@@ -26,12 +27,12 @@ private slots:
     void on_nickname_lineEdit_returnPressed();
 
 private:
-    void SetNickname();
     bool CheckNickName(const QString& nickname) const;
 
 private:
     Ui::InviteForm *ui;
     QStringList usersList;
+
 };
 
 #endif // INVITEFORM_H

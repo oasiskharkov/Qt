@@ -52,9 +52,9 @@ void MainWindow::SendMessage()
         QMessageBox::warning(this, "Empty message", "Input message, please!");
         return;
     }
-     ui->message_lineEdit->clear();
-     QByteArray datagram = (nickname + ": " + message).toUtf8();
-     udpSocket->writeDatagram(datagram, QHostAddress::Broadcast, 45454);
+    ui->message_lineEdit->clear();
+    QByteArray datagram = (nickname + ": " + message).toUtf8();
+    udpSocket->writeDatagram(datagram, QHostAddress::Broadcast, 45454);
 }
 
 bool MainWindow::ProcessServiceMessage(const QString& message)
@@ -82,7 +82,8 @@ bool MainWindow::ProcessServiceMessage(const QString& message)
             auto it = std::find_if(list.begin(), list.end(), [nickname](const auto& nick) { return nick == nickname; });
             if (it == list.end())
             {
-                if(model->insertRow(model->rowCount())) {
+                if(model->insertRow(model->rowCount()))
+                {
                     QModelIndex index = model->index(model->rowCount() - 1, 0);
                     model->setData(index, nickname);
                 }
@@ -124,7 +125,8 @@ void MainWindow::on_online_timer()
 void MainWindow::on_nickname_set(const QString& nickname)
 {
     this->nickname = nickname;
-    if(model->insertRow(model->rowCount())) {
+    if(model->insertRow(model->rowCount()))
+    {
         QModelIndex index = model->index(model->rowCount() - 1, 0);
         model->setData(index, nickname);
     }
@@ -145,7 +147,8 @@ void MainWindow::on_send_pushButton_clicked()
 void MainWindow::process_pending_datagrams()
 {
     QByteArray datagram;
-    while (udpSocket->hasPendingDatagrams()) {
+    while (udpSocket->hasPendingDatagrams())
+    {
         datagram.resize(int(udpSocket->pendingDatagramSize()));
         udpSocket->readDatagram(datagram.data(), datagram.size());
         QString message = datagram.constData();

@@ -46,16 +46,11 @@ void InviteForm::closeEvent(QCloseEvent* event)
 
 void InviteForm::on_ok_pushButton_clicked()
 {
-    SetNickname();
+    this->close();
 }
 
 
 void InviteForm::on_nickname_lineEdit_returnPressed()
-{
-    SetNickname();
-}
-
-void InviteForm::SetNickname()
 {
     this->close();
 }
